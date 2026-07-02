@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <script>(function(){var c=['hy','ru','en'],l='hy',k='gkb_lang';try{var s=localStorage.getItem(k);if(s&&c.indexOf(s)>=0)l=s;}catch(e){}try{var q=new URLSearchParams(location.search).get('lang');if(q&&c.indexOf(q)>=0)l=q;}catch(e){}document.documentElement.lang=l;document.documentElement.classList.add('i18n-pending');})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Contact Healthy Spine — phone, email, working hours, and online appointment booking in Yerevan.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://healthyspinedoc.com/contact">
+    <title>Contact Us — Healthy Spine</title>
+    <link rel="stylesheet" href="css/hospital-theme.css?v=20260701">
+    <link rel="stylesheet" href="css/hss-spine.css?v=20260726">
+<script src="js/i18n-boot.js?v=20260718"></script>
+</head>
+<body class="hss-page" data-page="contacts" data-i18n-title="pages.contacts.title">
+    <div id="site-nav"></div>
+    <header class="hss-hero hss-hero--inner">
+        <div class="hss-wrap">
+            <h1 data-i18n="pages.contacts.heroTitle">Contact Us</h1>
+            <p class="hss-hero__tagline" data-i18n="pages.contacts.heroDesc">Call, email, or send a message to book an appointment.</p>
+        </div>
+    </header>
+    <section class="hss-section">
+        <div class="hss-wrap">
+            <div class="hss-emergency">
+                <span data-i18n="pages.contacts.emergency">—</span>: <strong id="contact-emergency">103</strong>
+            </div>
+            <div class="hss-contact-grid reveal">
+                <div class="hss-contact-card">
+                    <h3 data-i18n="pages.contacts.phoneLabel">—</h3>
+                    <p id="contact-phone"></p>
+                    <a href="appointment.html" class="hss-link" data-i18n="common.bookOnline">—</a>
+                </div>
+                <div class="hss-contact-card">
+                    <h3 data-i18n="pages.contacts.emailLabel">—</h3>
+                    <p id="contact-email"></p>
+                </div>
+                <div class="hss-contact-card">
+                    <h3 data-i18n="pages.contacts.addressLabel">—</h3>
+                    <p id="contact-address"></p>
+                </div>
+                <div class="hss-contact-card">
+                    <h3 data-i18n="pages.contacts.hoursLabel">—</h3>
+                    <p id="contact-hours"></p>
+                </div>
+            </div>
+            <div class="hss-map reveal" id="map-placeholder" role="region" aria-label="Map"></div>
+            <p class="hss-map__address-line">
+              <span data-i18n="footer.legalAddress">—</span>:
+              <span id="contact-map-address"></span>
+              ·
+              <a href="#" id="contact-map-directions" class="hss-link" target="_blank" rel="noopener noreferrer" data-i18n="footer.mapDirections">—</a>
+            </p>
+        </div>
+    </section>
+    <section class="hss-section hss-section--alt">
+        <div class="hss-wrap hss-feedback">
+            <h2 data-i18n="pages.contacts.feedbackTitle">—</h2>
+            <p class="hss-feedback__intro" data-i18n="pages.contacts.feedbackDesc">—</p>
+            <form class="hss-form hss-form--narrow" id="feedback-form">
+                <div class="hss-form__row">
+                    <label class="hss-field">
+                        <span data-i18n="pages.contacts.name">—</span>
+                        <input type="text" name="name" required>
+                    </label>
+                    <label class="hss-field">
+                        <span data-i18n="pages.appointment.email">—</span>
+                        <input type="email" name="email" required>
+                    </label>
+                </div>
+                <label class="hss-field">
+                    <span data-i18n="pages.contacts.message">—</span>
+                    <textarea name="message" rows="5" required></textarea>
+                </label>
+                <label class="hss-consent-field">
+                    <input type="checkbox" name="privacyConsent" required>
+                    <span id="form-privacy-consent-text"></span>
+                </label>
+                <button type="submit" class="hss-btn hss-btn--primary" data-i18n="pages.contacts.send">—</button>
+            </form>
+        </div>
+    </section>
+    <div id="site-footer"></div>
+    <script src="js/storage.js"></script>
+    <script src="js/api-config.js?v=20260623"></script>
+    <script src="js/api-submit.js?v=20260623"></script>
+<script src="js/i18n.js?v=20260718"></script>
+    <script src="js/cms-config.js?v=20260706"></script>
+    <script src="js/cms-content.js?v=20260718"></script>
+    <script src="js/clinic-map.js?v=20260712"></script>
+    <script src="js/common.js?v=20260726"></script>
+    <script src="js/contacts-map.js?v=20260712"></script>
+    <script src="js/pages.js"></script>
+    <script>
+      document.getElementById('feedback-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const record = {
+          name: fd.get('name'),
+          email: fd.get('email'),
+          message: fd.get('message')
+        };
+        const api = typeof FormApi !== 'undefined' ? await FormApi.submitContact(record) : { offline: true };
+        if (api.ok || api.offline || api.status === 503) {
+          alert(I18n.t('pages.contacts.feedbackThanks'));
+          e.target.reset();
+        } else {
+          alert(api.error || 'Ошибка отправки. Попробуйте позже.');
+        }
+      });
+    </script>
+</body>
+</html>

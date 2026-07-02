@@ -1,0 +1,33 @@
+{
+  "name": "healthy-spine-site",
+  "private": true,
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "cms:seed": "node server/db/seed.js",
+    "cms:init": "node -e \"require('./server/db').initDb(); require('./server/db/seed').seed()\"",
+    "cms:staff-sync": "node scripts/sync-staff-users.js",
+    "cms:sync-lang": "node scripts/sync-lang-to-db.js",
+    "cms:sync-contact": "node scripts/sync-contact-from-env.js",
+    "cms:backup": "node scripts/cms-backup.js",
+    "cms:reconcile": "node scripts/cms-reconcile-uploads.js",
+    "seo:audit": "node scripts/seo-audit.js",
+    "deploy:verify": "npm run seo:audit",
+    "predeploy": "npm run seo:audit"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.7.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.15",
+    "uuid": "^11.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
