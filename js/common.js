@@ -711,7 +711,7 @@ const HospitalApp = (function () {
       <footer class="site-footer hss-footer">
         <div class="hss-footer__cta">
           <div class="hss-wrap">
-            <a href="${prefix}appointment.html" class="hss-footer__cta-link" data-footer-brand="ctaLink">${t('footer.ctaLink', { name })}</a>
+            <a href="${prefix}contact" class="hss-footer__cta-link" data-footer-brand="ctaLink">${t('footer.ctaLink', { name })}</a>
           </div>
         </div>
         <section class="hss-footer-map" aria-labelledby="footer-map-title">
@@ -751,10 +751,10 @@ const HospitalApp = (function () {
               <a href="${prefix}services" data-i18n="nav.services">${t('nav.services')}</a>
               <a href="${prefix}conditions" data-i18n="nav.conditions">${t('nav.conditions')}</a>
               <a href="${prefix}knowledge" data-i18n="nav.knowledge">${t('nav.knowledge')}</a>
-              <a href="${prefix}appointment.html" data-i18n="footer.infoPatients">${t('footer.infoPatients')}</a>
+              <a href="${prefix}contact" data-i18n="footer.infoPatients">${t('footer.infoPatients')}</a>
               <a href="${prefix}find-a-doctor" data-i18n="footer.infoDoctors">${t('footer.infoDoctors')}</a>
               <a href="${prefix}locations" data-i18n="footer.infoHours">${t('footer.infoHours')}</a>
-              <a href="${prefix}appointment.html" data-i18n="footer.infoBook">${t('footer.infoBook')}</a>
+              <a href="${prefix}contact" data-i18n="footer.infoBook">${t('footer.infoBook')}</a>
             </div>
             <div class="hss-footer__col">
               <h4 data-i18n="footer.policiesTitle">${t('footer.policiesTitle')}</h4>

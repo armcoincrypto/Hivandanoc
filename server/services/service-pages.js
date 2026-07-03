@@ -72,8 +72,6 @@ function headTags(meta, canonicalPath) {
     <meta name="description" content="${esc(meta.description)}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="${url}">
-    <link rel="alternate" hreflang="hy" href="${url}">
-    <link rel="alternate" hreflang="x-default" href="${url}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Healthy Spine">
     <meta property="og:title" content="${esc(meta.title)}">
@@ -101,9 +99,8 @@ function relatedServices(data, service, limit = 4) {
 }
 
 function ctaBlock(serviceId) {
-  const dept = serviceId ? `?department=${encodeURIComponent(serviceId)}` : '';
   return `<nav class="seo-service-cta" aria-label="Next steps">
-    <p><a href="/appointment.html${dept}" class="hss-btn hss-btn--primary">Գրանցվել ընդունելության</a>
+    <p><a href="/contact" class="hss-btn hss-btn--primary">Գրանցվել ընդունելության</a>
     <a href="/contact" class="hss-btn hss-btn--outline">Կապ</a>
     <a href="/locations" class="hss-link">Հասցե և ժամեր</a></p>
   </nav>`;
@@ -231,7 +228,7 @@ function serviceBodyHtml(data, service) {
         <p>${serviceCarePathParagraph(service)}</p>
         <p>${serviceWhenToSeekParagraph()}</p>
         <p>Կլինիկան գտնվում է Երևանում (${esc(h.address || 'Yerevan, Armenia')})։ Հեռախոս՝ ${esc(h.phone || '')}։ 
-        Այցի համար կարող եք օգտագործել <a href="/appointment.html?department=${esc(service.id)}">օնլայն գրանցում</a> կամ <a href="/contact">կապ</a> մեզ հետ։</p>
+        Այցի համար կարող եք <a href="/contact">կապ հաստատել</a> մեզ հետ։</p>
       </div>
     </section>
     ${safetyNote()}

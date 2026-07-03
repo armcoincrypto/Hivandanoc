@@ -64,7 +64,10 @@ const LEGACY_HTML_REDIRECTS = {
   'about.html': '/about',
   'contacts.html': '/locations',
   'departments.html': '/patient-care',
-  'doctors.html': '/find-a-doctor'
+  'doctors.html': '/find-a-doctor',
+  'services.html': '/services',
+  'conditions.html': '/conditions',
+  'knowledge.html': '/knowledge'
 };
 Object.entries(LEGACY_HTML_REDIRECTS).forEach(([file, target]) => {
   app.get(`/${file}`, (_req, res) => res.redirect(301, target));

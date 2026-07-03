@@ -210,6 +210,21 @@ function buildPublicContent(lang = 'hy') {
     }
   }
 
+  if (lang === 'hy') {
+    try {
+      const { hyNames, hyDetails } = require('../../scripts/lib/dept-translations');
+      for (let i = 0; i < services.length; i++) {
+        const id = services[i].id;
+        if (hyNames[id]) services[i].name = hyNames[id];
+        const det = hyDetails[id];
+        if (det?.description) services[i].description = det.description;
+        if (det?.services?.length) services[i].services = det.services;
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+
   const doctors = db
     .prepare('SELECT * FROM doctors WHERE published = 1 ORDER BY sort_order, id')
     .all()

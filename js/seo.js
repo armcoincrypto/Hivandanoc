@@ -157,11 +157,8 @@ const SiteSEO = (function () {
     });
   }
 
-  function injectHreflang(canonicalPath) {
+  function injectHreflang() {
     document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
-    const clean = canonicalPath.split('?')[0] || '/';
-    upsertLink('alternate', absoluteUrl(clean), { hreflang: 'hy' });
-    upsertLink('alternate', absoluteUrl(clean), { hreflang: 'x-default' });
   }
 
   function pageDescription(page, title) {

@@ -532,20 +532,24 @@ async function auditConditionServiceLinks() {
     if (!back.body.includes(`href="${p}"`)) fail(`/conditions/back-pain-treatment missing link to ${p}`);
     else pass(`/conditions/back-pain-treatment links to ${p}`);
   }
-  for (const p of ['/contact', '/locations', '/appointment.html']) {
+  for (const p of ['/contact', '/locations']) {
     if (!back.body.includes(`href="${p}"`)) fail(`/conditions/back-pain-treatment missing link to ${p}`);
     else pass(`/conditions/back-pain-treatment links to ${p}`);
   }
+  if (back.body.includes('appointment.html')) fail('/conditions/back-pain-treatment contains deprecated appointment.html link');
+  else pass('/conditions/back-pain-treatment has no appointment.html link');
 
   const neck = await fetchUrl(`${BASE}/conditions/neck-pain-treatment`);
   for (const p of ['/services/manual-therapy', '/services/physiotherapy', '/services/osteopathy']) {
     if (!neck.body.includes(`href="${p}"`)) fail(`/conditions/neck-pain-treatment missing link to ${p}`);
     else pass(`/conditions/neck-pain-treatment links to ${p}`);
   }
-  for (const p of ['/contact', '/locations', '/appointment.html']) {
+  for (const p of ['/contact', '/locations']) {
     if (!neck.body.includes(`href="${p}"`)) fail(`/conditions/neck-pain-treatment missing link to ${p}`);
     else pass(`/conditions/neck-pain-treatment links to ${p}`);
   }
+  if (neck.body.includes('appointment.html')) fail('/conditions/neck-pain-treatment contains deprecated appointment.html link');
+  else pass('/conditions/neck-pain-treatment has no appointment.html link');
 }
 
 async function auditKnowledgeHubLinks() {
