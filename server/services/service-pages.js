@@ -45,14 +45,20 @@ const CATEGORY_LABELS = {
 
 
 const SERVICE_CONDITION_LINKS = {
-  'physiotherapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment'],
-  'manual-therapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment'],
-  'consult-spine': ['herniated-disc', 'lower-back-pain', 'back-pain-treatment'],
-  'consult-neuro': ['leg-numbness', 'sciatica'],
-  'traction': ['herniated-disc', 'sciatica'],
-  'hernia-treatment': ['herniated-disc', 'sciatica'],
-  'massage': ['lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment'],
-  'osteopathy': ['lower-back-pain', 'neck-pain-treatment']
+  'physiotherapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment', 'shoulder-pain', 'thoracic-back-pain'],
+  'manual-therapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment', 'shoulder-pain', 'thoracic-back-pain'],
+  'consult-spine': ['herniated-disc', 'lower-back-pain', 'back-pain-treatment', 'osteochondrosis'],
+  'consult-neuro': ['leg-numbness', 'sciatica', 'radiculopathy'],
+  'traction': ['herniated-disc', 'sciatica', 'osteochondrosis'],
+  'hernia-treatment': ['herniated-disc', 'sciatica', 'radiculopathy'],
+  'massage': ['lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment', 'shoulder-pain'],
+  'osteopathy': ['lower-back-pain', 'neck-pain-treatment', 'shoulder-pain', 'joint-pain'],
+  'scoliosis': ['scoliosis-pain', 'back-pain-treatment'],
+  'kinesiotherapy': ['scoliosis-pain', 'lower-back-pain', 'thoracic-back-pain'],
+  'osteochondrosis': ['osteochondrosis', 'back-pain-treatment'],
+  'radiculitis': ['radiculopathy', 'sciatica'],
+  'arthrosis': ['joint-pain', 'back-pain-treatment'],
+  'sports-rehab': ['lower-back-pain', 'shoulder-pain']
 };
 
 function esc(s) {
