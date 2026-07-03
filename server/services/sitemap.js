@@ -15,7 +15,8 @@ const CORE_ROUTES = [
   { path: '/about', file: 'about.html', priority: '0.8', changefreq: 'monthly' },
   { path: '/contact', file: 'contacts.html', priority: '0.85', changefreq: 'monthly' },
   { path: '/locations', file: 'contacts.html', priority: '0.85', changefreq: 'monthly' },
-  { path: '/knowledge', file: 'knowledge.html', priority: '0.92', changefreq: 'weekly' }
+  { path: '/knowledge', file: 'knowledge.html', priority: '0.92', changefreq: 'weekly' },
+  { path: '/consultation-process', file: 'consultation-process.html', priority: '0.85', changefreq: 'monthly' }
 ];
 
 function siteBase() {

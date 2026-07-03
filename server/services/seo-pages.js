@@ -40,15 +40,18 @@ function homeCrawlBlock(data) {
       <a href="/find-a-doctor">Գտնել բժիշկ</a> ·
       <a href="/locations">Հասցեներ</a> ·
       <a href="/contact">Կապ</a> ·
-      <a href="/about">Մեր մասին</a>
+      <a href="/about">Մեր մասին</a> ·
+      <a href="/consultation-process">Խորհրդատվության գործընթաց</a>
     </nav>`;
-  const conditionLinks = `<p><a href="/conditions/back-pain-treatment">Մեջքի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>`;
+  const conditionLinks = `<p><a href="/conditions/back-pain-treatment">Մեջքի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions/sciatica">Իշիաս</a> · <a href="/conditions/herniated-disc">Սկավառակի ճողվածք</a> · <a href="/conditions/lower-back-pain">Գոտկային ցավ</a> · <a href="/conditions/leg-numbness">Ոտքի թմրածություն</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>`;
   return `<section class="seo-crawl-content" id="seo-crawl-content">
     <h2>${esc(h.name || 'Առողջ ողնաշար')}</h2>
     <p>${esc(h.about || h.mission || '«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն Երևանում։')}</p>
     ${h.mission ? `<p>${esc(h.mission)}</p>` : ''}
     ${conditionItems ? `<h3>Բուժվող վիճակներ</h3><ul>${conditionItems}</ul>` : ''}
     ${conditionLinks}
+    <p><a href="/knowledge">Գիտելիքների կենտրոն</a> · <a href="/knowledge/back-pain-causes">Մեջքի ցավի պատճառներ</a> · <a href="/knowledge/sciatica-symptoms">Իշիասի ախտանիշներ</a> · <a href="/knowledge/herniated-disc-symptoms">Սկավառակի ախտանիշներ</a> · <a href="/knowledge/lower-back-pain-causes">Գոտկային ցավի պատճառներ</a></p>
+    <p><a href="/consultation-process">Խորհրդատվության գործընթաց</a></p>
     <p><strong>Հեռախոս.</strong> ${esc(h.phone || '')} · <strong>Հասցե.</strong> ${esc(h.address || 'Երևան, Հայաստան')}</p>
     ${nav}
   </section>`;
@@ -75,8 +78,8 @@ const ROUTES = {
       return {
         title: `${name} — Վերականգնողական կենտրոն`,
         description:
-          h.about ||
-          '«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն Երևանում։',
+          h.heroTagline ||
+          '«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն Երևանում։ Մանուալ թերապիա, ֆիզիոթերապիա, օստեոպաթիա և այլ ծառայություններ։',
         h1: name,
         tagline:
           h.heroTagline ||
@@ -179,6 +182,17 @@ const ROUTES = {
     bodyHtml: (data) => contactBlock(data, 'contact'),
     jsonLd: (data, url) => [localBusinessNode(data, url), breadcrumb(url, 'Կապ')]
   },
+  '/consultation-process': {
+    file: 'consultation-process.html',
+    pageKey: 'consultation-process',
+    title: 'Խորհրդատվության գործընթաց — Առողջ ողնաշար',
+    description:
+      'Ինչպես է անցնում խորհրդատվությունը «Առողջ ողնաշար» վերականգնողական կենտրոնում՝ գնահատում, պլանավորում և հսկողություն։',
+    h1: 'Խորհրդատվության գործընթաց',
+    tagline: 'Ինչ սպասել առաջին այցից մինչև վերականգնողական պլանի ավարտը',
+    bodyHtml: (data) => consultationBodyHtml(data),
+    jsonLd: (data, url) => consultationJsonLd(data, url)
+  },
   '/locations': {
     file: 'contacts.html',
     pageKey: 'locations',
@@ -191,6 +205,53 @@ const ROUTES = {
     jsonLd: (data, url) => [localBusinessNode(data, url), breadcrumb(url, 'Հասցեներ')]
   }
 };
+
+
+function consultationBodyHtml(data) {
+  const h = data?.hospital || {};
+  return `<article class="seo-crawl-content" id="seo-crawl-content">
+    <nav class="seo-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Գլխավոր</a> › <span>Խորհրդատվության գործընթաց</span>
+    </nav>
+    <div class="hss-prose">
+      <p>«Առողջ ողնաշար» վերականգնողական կենտրոնը Երևանում աշխատում է կոնսերվատիվ մոտեցմամբ՝ գնահատումից մինչև վերականգնողական պլանի կազմում։</p>
+    </div>
+    <section class="seo-service-section">
+      <h2>Փուլ 1 — Կապ հաստատել</h2>
+      <div class="hss-prose"><p>Կապ հաստատեք կլինիկայի հետ հեռախոսով կամ օնլայն ձևով։ Ներկայացրեք ձեր բողոքները և առկա ուսումնասիրությունների արդյունքները, եթե դրանք ունեք։</p></div>
+    </section>
+    <section class="seo-service-section">
+      <h2>Փուլ 2 — Սկզբնական գնահատում</h2>
+      <div class="hss-prose"><p>Առաջին այցի ժամանակ մասնագետը կհավաքի բողոքների պատմությունը, կկատարի ստուգում և կքննարկի հնարավոր հաջորդ քայլերը։ Գնահատումը կարող է տևել 20–40 րոպե։</p></div>
+    </section>
+    <section class="seo-service-section">
+      <h2>Փուլ 3 — Վերականգնողական պլան</h2>
+      <div class="hss-prose"><p>Գնահատումից հետո մասնագետը կարող է առաջարկել անհատականացված վերականգնողական պլան՝ ներառյալ թերապիաների համակցում, հանդիպումների քանակը և տնային խորհուրդները։</p></div>
+    </section>
+    <section class="seo-service-section">
+      <h2>Փուլ 4 — Հսկողություն և հարմարեցում</h2>
+      <div class="hss-prose"><p>Վերականգնողական ընթացքում մասնագետը կհետևի գնահատման արդյունքները և կառաջարկի պլանի հարմարեցումը, եթե անհրաժեշտ։ Արդյունքները կարող են տարբեր լինել։</p></div>
+    </section>
+    <section class="seo-service-section">
+      <h2>Կարևոր նշում</h2>
+      <div class="hss-prose"><p>Այս էջը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը կամ խորհրդատվությունը։ Կենտրոնը չի երաշխավորում կոնկրետ արդյունքներ կամ ամբողջական ազատում ցավից։</p></div>
+    </section>
+    <p><a href="/services" class="hss-link">Ծառայություններ</a> · <a href="/conditions" class="hss-link">Ախտորոշումներ</a> · <a href="/knowledge" class="hss-link">Գիտելիքների կենտրոն</a></p>
+    <nav class="seo-service-cta" aria-label="Next steps">
+      <p><a href="/contact" class="hss-btn hss-btn--primary">Գրանցվել ընդունելության</a>
+      <a href="/contact" class="hss-btn hss-btn--outline">Կապ</a>
+      <a href="/locations" class="hss-link">Հասցե և ժամեր</a></p>
+    </nav>
+  </article>`;
+}
+
+function consultationJsonLd(data, url) {
+  return [
+    { '@type': 'WebPage', name: 'Խորհրդատվության գործընթաց', url, description: 'Ինչպես է անցնում խորհրդատվությունը կենտրոնում։', isPartOf: { '@type': 'WebSite', name: clinicName(data), url: BASE + '/' } },
+    clinicNode(data),
+    breadcrumb(url, 'Խորհրդատվության գործընթաց')
+  ];
+}
 
 function esc(s) {
   return String(s ?? '')

@@ -22,7 +22,8 @@ const CORE_URLS = [
   { path: '/about', label: 'About' },
   { path: '/contact', label: 'Contact' },
   { path: '/locations', label: 'Locations' },
-  { path: '/knowledge', label: 'Knowledge Hub' }
+  { path: '/knowledge', label: 'Knowledge Hub' },
+  { path: '/consultation-process', label: 'Consultation Process' }
 ];
 
 const LAUNCHED_SERVICE_URLS = getLaunchedServiceSlugs().map((slug) => ({
@@ -30,10 +31,12 @@ const LAUNCHED_SERVICE_URLS = getLaunchedServiceSlugs().map((slug) => ({
   label: slug.replace(/-/g, ' ')
 }));
 
-const LAUNCHED_CONDITION_URLS = [
-  { path: '/conditions/back-pain-treatment', label: 'Back Pain Treatment' },
-  { path: '/conditions/neck-pain-treatment', label: 'Neck Pain Treatment' }
-];
+const { getLaunchedConditionSlugs } = require('../server/services/condition-pages');
+
+const LAUNCHED_CONDITION_URLS = getLaunchedConditionSlugs().map((slug) => ({
+  path: `/conditions/${slug}`,
+  label: slug.replace(/-/g, ' ')
+}));
 
 const LAUNCHED_KNOWLEDGE_URLS = getLaunchedKnowledgeSlugs().map((slug) => ({
   path: `/knowledge/${slug}`,
@@ -207,7 +210,7 @@ async function auditSitemap() {
 
 async function auditHomepageLinks() {
   const res = await fetchUrl(`${BASE}/`);
-  const required = ['/find-a-doctor', '/services', '/conditions', '/knowledge', '/patient-care', '/about', '/contact', '/locations'];
+  const required = ['/find-a-doctor', '/services', '/conditions', '/knowledge', '/patient-care', '/about', '/contact', '/locations', '/consultation-process'];
   for (const p of required) {
     const hit = res.body.includes(`href="${p}"`) || res.body.includes(`href='${p}'`);
     if (!hit) fail(`homepage missing internal link to ${p}`);
@@ -387,6 +390,19 @@ async function auditPage({ path, label }, homepageSnapshot) {
     }
   }
 
+
+  if (path === '/consultation-process') {
+    if (!/"@type"\s*:\s*"WebPage"/i.test(res.body)) {
+      fail(`${path} missing WebPage schema`);
+    } else {
+      pass(`${path} includes WebPage schema`);
+    }
+    if (/"@type"\s*:\s*"Physician"/i.test(res.body)) {
+      fail(`${path} contains Physician schema`);
+    } else {
+      pass(`${path} has no Physician schema`);
+    }
+  }
   auditEntitySchemaFields(path, res.body);
 
   return { path, title, h1, canonical, robots, description, fingerprint: bodyFingerprint(res.body) };

@@ -1,6 +1,6 @@
 /** Auto-generated — P5A + P5B knowledge articles (P0T.3 Armenian copy QA) */
-const LAUNCHED_KNOWLEDGE_SLUGS = ["back-pain-causes","neck-pain-causes","herniated-disc-symptoms","posture-and-spine-health","rehabilitation-after-spine-surgery","lower-back-pain-causes","sciatica-symptoms","neck-stiffness-causes","leg-numbness-and-spine","back-pain-when-sitting"];
-const PLANNED_KNOWLEDGE_SLUGS = ["back-pain-symptoms","neck-pain-symptoms","scoliosis-in-adults"];
+const LAUNCHED_KNOWLEDGE_SLUGS = ["back-pain-causes","neck-pain-causes","herniated-disc-symptoms","posture-and-spine-health","rehabilitation-after-spine-surgery","lower-back-pain-causes","sciatica-symptoms","neck-stiffness-causes","leg-numbness-and-spine","back-pain-when-sitting","when-back-pain-needs-evaluation","sciatica-vs-lower-back-pain","herniated-disc-vs-bulging-disc","back-pain-after-lifting","neck-pain-symptoms","back-pain-symptoms"];
+const PLANNED_KNOWLEDGE_SLUGS = ["scoliosis-in-adults"];
 const KNOWLEDGE_CONFIG = {
   "back-pain-causes": {
     "h1": "Մեջքի ցավի պատճառներ",
@@ -31,7 +31,8 @@ const KNOWLEDGE_CONFIG = {
       "Արտակարգ իրավիճակներում (ուժեղ ցավ, շարժման կորստ, միզապարկի կամ մալքի խանգարում) դիմեք 103"
     ],
     "conditionSlugs": [
-      "back-pain-treatment"
+      "back-pain-treatment",
+      "lower-back-pain"
     ],
     "serviceSlugs": [
       "manual-therapy",
@@ -95,7 +96,8 @@ const KNOWLEDGE_CONFIG = {
     ],
     "relatedKnowledgeSlugs": [
       "posture-and-spine-health",
-      "neck-stiffness-causes"
+      "neck-stiffness-causes",
+      "neck-pain-symptoms"
     ],
     "faq": [
       {
@@ -132,7 +134,8 @@ const KNOWLEDGE_CONFIG = {
       "Արտակարգ իրավիճակներում (միզապարկի կամ մալքի խանգարում) դիմեք 103"
     ],
     "conditionSlugs": [
-      "back-pain-treatment"
+      "back-pain-treatment",
+      "herniated-disc"
     ],
     "serviceSlugs": [
       "hernia-treatment",
@@ -281,7 +284,8 @@ const KNOWLEDGE_CONFIG = {
       "Արտակարգ իրավիճակներում (ուժեղ ցավ, շարժման կորստ, միզապարկի կամ մալքի խանգարում) դիմեք 103"
     ],
     "conditionSlugs": [
-      "back-pain-treatment"
+      "back-pain-treatment",
+      "lower-back-pain"
     ],
     "serviceSlugs": [
       "manual-therapy",
@@ -335,7 +339,8 @@ const KNOWLEDGE_CONFIG = {
       "Արտակարգ իրավիճակներում դիմեք 103"
     ],
     "conditionSlugs": [
-      "back-pain-treatment"
+      "back-pain-treatment",
+      "sciatica"
     ],
     "serviceSlugs": [
       "hernia-treatment",
@@ -439,7 +444,8 @@ const KNOWLEDGE_CONFIG = {
       "Արտակարգ իրավիճակներում դիմեք 103"
     ],
     "conditionSlugs": [
-      "back-pain-treatment"
+      "back-pain-treatment",
+      "leg-numbness"
     ],
     "serviceSlugs": [
       "hernia-treatment",
@@ -491,7 +497,8 @@ const KNOWLEDGE_CONFIG = {
       "Արտակարգ իրավիճակներում դիմեք 103"
     ],
     "conditionSlugs": [
-      "back-pain-treatment"
+      "back-pain-treatment",
+      "lower-back-pain"
     ],
     "serviceSlugs": [
       "manual-therapy",
@@ -515,6 +522,90 @@ const KNOWLEDGE_CONFIG = {
         "a": "Կենտրոնը կարող է նախատեսել կոնսերվատիվ գնահատում և վերականգնողական ծրագրեր մասնագետի նախատեսումներով։"
       }
     ]
+  },
+  "when-back-pain-needs-evaluation": {
+    "h1": "Երբ մեջքի ցավը պահանջում է բժշկական գնահատում",
+    "tagline": "Տեղեկատվական ուղեցույց՝ երբ մեջքի ցավը կարող է պահանջել մասնագետի գնահատում",
+    "titleSuffix": "Երբ մեջքի ցավը պահանջում է գնահատում",
+    "description": "Երբ մեջքի ցավը պահանջում է բժշկական գնահատում։ Տեղեկատվական հոդված «Առողջ ողնաշար» կենտրոնից։",
+    "intro": "Մեջքի ցավը հաճախ է անցնում ինքնաբերաբար, բայց որոշ դեպքերում կարող է պահանջել մասնագետի գնահատում։ Այս հոդվածը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը։",
+    "symptoms": ["Ցավ, որը տևում է մի քանի օրից ավելի", "Ցավ, որը խանգարում է առօրյա գործունեությանը", "Նյարդային ախտանիշներ (թմրածություն, թուլություն)", "Ցավ վնասվածքից կամ ծանր բարձրացումից հետո", "Ախտանիշներ, որոնք վատանում են"],
+    "causes": ["Մկանային լարվածություն", "Դիսկի խնդիրներ", "Վնասվածքներ", "Երկարատև նստած աշխատանք", "Այլ գործոններ, որոնք գնահատվում են մասնագետի կողմից"],
+    "whenToSeek": ["Եթե ցավը տևում է մի քանի օրից ավելի", "Եթե նյարդային ախտանիշները խտանում են", "Եթե խանգարում է առօրյա գործունեությանը", "Եթե ցավը սկսվել է վնասվածքից հետո", "Արտակարգ իրավիճակներում դիմեք 103"],
+    "conditionSlugs": ["back-pain-treatment", "lower-back-pain"],
+    "serviceSlugs": ["manual-therapy", "physiotherapy", "hernia-treatment"],
+    "relatedKnowledgeSlugs": ["back-pain-causes", "lower-back-pain-causes", "sciatica-symptoms"],
+    "faq": [{"q": "Երբ պետք է դիմել մասնագետի", "a": "Եթե ցավը տևում է մի քանի օրից ավելի, ուղեկցվում է նյարդային ախտանիշներով կամ խանգարում է առօրյա գործունեությանը։"}]
+  },
+  "sciatica-vs-lower-back-pain": {
+    "h1": "Իշիասն ընդդեմ գոտկային ցավի",
+    "tagline": "Տեղեկատվական ուղեցույց՝ իշիասի և գոտկային ցավի տարբերությունների մասին",
+    "titleSuffix": "Իշիասն ընդդեմ գոտկային ցավի",
+    "description": "Իշիասն ընդդեմ գոտկային ցավի։ Տեղեկատվական հոդված «Առողջ ողնաշար» կենտրոնից։",
+    "intro": "Իշիասը և գոտկային ցավը կարող են ունենալ նման ախտանիշներ, բայց ունեն տարբեր հնարավոր պատճառներ և դրսևորումներ։ Այս հոդվածը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը։",
+    "symptoms": ["Գոտկային ցավ, որը կարող է ճառագայթել ոտքով", "Թմրածություն կամ թուլություն ոտքում", "Ցավ միայն գոտկային մասում", "Մկանային լարվածություն", "Ցավ, որը ուժգնանում է նստած դիրքում"],
+    "causes": ["Նյարդի ճնշումը", "Մկանային լարվածություն", "Դիսկի խնդիրներ", "Կեցվածքի խնդիրներ", "Երկարատև նստած աշխատանք"],
+    "whenToSeek": ["Եթե ցավը ճառագայթում է ոտքով", "Եթե թմրածությունը խտանում է", "Եթե խանգարում է քնին կամ աշխատանքին", "Եթե ցավը սկսվել է վնասվածքից հետո", "Արտակարգ իրավիճակներում դիմեք 103"],
+    "conditionSlugs": ["sciatica", "lower-back-pain"],
+    "serviceSlugs": ["hernia-treatment", "manual-therapy", "physiotherapy", "traction"],
+    "relatedKnowledgeSlugs": ["sciatica-symptoms", "lower-back-pain-causes", "leg-numbness-and-spine"],
+    "faq": [{"q": "Ինչպես տարբերել իշիասը գոտկային ցավից", "a": "Իշիասը հաճախ ճառագայթում է ոտքով, մինչդեռ գոտկային ցավը կարող է տեղայնացված լինել։ Միայն մասնագետը կարող է տարբերել։"}]
+  },
+  "herniated-disc-vs-bulging-disc": {
+    "h1": "Ճողված և ուռացած սկավառակ",
+    "tagline": "Տեղեկատվական ուղեցույց՝ ճողված և ուռացած սկավառակի տարբերությունների մասին",
+    "titleSuffix": "Ճողված և ուռացած սկավառակ",
+    "description": "Ճողված և ուռացած սկավառակ։ Տեղեկատվական հոդված «Առողջ ողնաշար» կենտրոնից։",
+    "intro": "Միջողային սկավառակի ճողվածքը և ուռացումը տարբեր վիճակներ են, որոնք պահանջում են մասնագետի գնահատում։ Այս հոդվածը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը։",
+    "symptoms": ["Մեջքի կամ գոտկային ցավ", "Ցավ, որը կարող է ճառագայթել ոտքով", "Թմրածություն կամ թուլություն", "Շարժունակության սահմանաֆակում", "Մկանային թուլություն"],
+    "causes": ["Տարիկային փոփոխություններ", "Ծանր բարձրացում", "Վնասվածքներ", "Երկարատև նստած աշխատանք", "Անհատական գործոններ"],
+    "whenToSeek": ["Եթե ցավը չի նվազում մի քանի օրում", "Եթե նյարդային ախտանիշները խտանում են", "Եթե խանգարում է առօրյա գործունեությանը", "Եթե ուղեկցվում է միզապարկի խանգարումով", "Արտակարգ իրավիճակներում դիմեք 103"],
+    "conditionSlugs": ["herniated-disc", "back-pain-treatment"],
+    "serviceSlugs": ["hernia-treatment", "manual-therapy", "physiotherapy", "traction"],
+    "relatedKnowledgeSlugs": ["herniated-disc-symptoms", "sciatica-symptoms", "lower-back-pain-causes"],
+    "faq": [{"q": "Ինչ տարբերություն կա ճողվածքի և ուռացման միջև", "a": "Ճողվածքը նշանակում է սկավառակի նյութի արտաձգտում, մինչդեռ ուռացումը՝ նյութի առանց պարունակում։ Միայն մասնագետը կարող է տարբերել։"}]
+  },
+  "back-pain-after-lifting": {
+    "h1": "Մեջքի ցավ ծանր բարձրացումից հետո",
+    "tagline": "Տեղեկատվական ուղեցույց՝ ծանր բարձրացումից հետո մեջքի ցավի մասին",
+    "titleSuffix": "Մեջքի ցավ ծանր բարձրացումից հետո",
+    "description": "Մեջքի ցավ ծանր բարձրացումից հետո։ Տեղեկատվական հոդված «Առողջ ողնաշար» կենտրոնից։",
+    "intro": "Մեջքի ցավը ծանր բարձրացումից հետո կարող է կապված լինել մկանային լարվածության, դիսկի խնդիրների կամ այլ գործոնների հետ։ Այս հոդվածը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը։",
+    "symptoms": ["Սուր ցավ գոտկային մասում", "Մկանային լարվածություն", "Շարժունակության սահմանաֆակում", "Ցավ, որը կարող է ճառագայթել ոտքով", "Ցավի ուժգնացում շարժվելիս"],
+    "causes": ["Մկանային գերզանրաբերնում", "Դիսկի խնդիրներ", "Սխալ բարձրացման տեխնիկա", "Վնասվածքներ", "Անհատական գործոններ"],
+    "whenToSeek": ["Եթե ցավը չի նվազում մի քանի օրում", "Եթե ուղեկցվում է նյարդային ախտանիշներով", "Եթե խանգարում է առօրյա գործունեությանը", "Եթե ցավը սկսվել է վնասվածքից հետո", "Արտակարգ իրավիճակներում դիմեք 103"],
+    "conditionSlugs": ["back-pain-treatment", "lower-back-pain", "herniated-disc"],
+    "serviceSlugs": ["manual-therapy", "physiotherapy", "hernia-treatment"],
+    "relatedKnowledgeSlugs": ["back-pain-causes", "lower-back-pain-causes", "herniated-disc-symptoms"],
+    "faq": [{"q": "Ինչ անել եթե մեջքը ցավեց բարձրացումից հետո", "a": "Խորհուրդ է հանգստանալ և խուսաֆել ծանր բարձրացումից։ Եթե ցավը չի նվազում կամ ուղեկցվում է նյարդային ախտանիշներով, դիմեք մասնագետի։"}]
+  },
+  "neck-pain-symptoms": {
+    "h1": "Պարանոցի ցավի ախտանիշներ",
+    "tagline": "Տեղեկատվական ուղեցույց պարանոցի ցավի ախտանիշների մասին",
+    "titleSuffix": "Պարանոցի ցավի ախտանիշներ",
+    "description": "Պարանոցի ցավի ախտանիշներ։ Տեղեկատվական հոդված «Առողջ ողնաշար» կենտրոնից։",
+    "intro": "Պարանոցի ցավը կարող է դրսևորվել տարբեր ախտանիշներով։ Այս հոդվածը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը։",
+    "symptoms": ["Պարանոցի կարկամություն", "Գլուխը շրջելիս անհարմարություն", "Ոլոքների լարվածություն", "Գլխի ցավեր, եթե ուղեկցում են պարանոցի ցավին", "Ձեռքերի թմրածություն (պահանջում է գնահատում)"],
+    "causes": ["Մկանային լարվածություն", "Երկարատև աշխատանք համակարգչի դիմաց", "Թույլ կեցվածք", "Վնասվածքներ", "Ստրես"],
+    "whenToSeek": ["Եթե պարանոցի ցավը չի նվազում մի քանի օրում", "Եթե ուղեկցվում է ձեռքերի թմրածությամբ", "Եթե առաջացել է վնասվածքից հետո", "Եթե խանգարում է քնին կամ աշխատանքին", "Արտակարգ ախտանիշներ — դիմեք 103"],
+    "conditionSlugs": ["neck-pain-treatment"],
+    "serviceSlugs": ["manual-therapy", "physiotherapy", "osteopathy"],
+    "relatedKnowledgeSlugs": ["neck-pain-causes", "neck-stiffness-causes", "posture-and-spine-health"],
+    "faq": [{"q": "Ինչ ախտանիշներ կարող են ուղեկցել պարանոցի ցավին", "a": "Պարանոցի ցավը կարող է ուղեկցվել կարկամությամբ, գլխի ցավերով, ձեռքերի թմրածությամբ։ Միայն մասնագետը կարող է գնահատել։"}]
+  },
+  "back-pain-symptoms": {
+    "h1": "Մեջքի ցավի ախտանիշներ",
+    "tagline": "Տեղեկատվական ուղեցույց մեջքի ցավի ախտանիշների մասին",
+    "titleSuffix": "Մեջքի ցավի ախտանիշներ",
+    "description": "Մեջքի ցավի ախտանիշներ։ Տեղեկատվական հոդված «Առողջ ողնաշար» կենտրոնից։",
+    "intro": "Մեջքի ցավը կարող է դրսևորվել տարբեր ախտանիշներով։ Այս հոդվածը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը։",
+    "symptoms": ["Ցավ գոտկային կամ պոզանոցի շրջանում", "Մկանային լարվածություն", "Շարժունակության սահմանաֆակում", "Ցավ, որը կարող է ճառագայթել ոտքով", "Նյարդային ախտանիշներ (պահանջում է գնահատում)"],
+    "causes": ["Մկանային լարվածություն", "Դիսկի խնդիրներ", "Երկարատև նստած աշխատանք", "Վնասվածքներ", "Ստրես"],
+    "whenToSeek": ["Եթե ցավը տևում է մի քանի օրից ավելի", "Եթե նյարդային ախտանիշները խտանում են", "Եթե խանգարում է առօրյա գործունեությանը", "Եթե ցավը սկսվել է վնասվածքից հետո", "Արտակարգ իրավիճակներում դիմեք 103"],
+    "conditionSlugs": ["back-pain-treatment", "lower-back-pain"],
+    "serviceSlugs": ["manual-therapy", "physiotherapy", "hernia-treatment", "osteopathy"],
+    "relatedKnowledgeSlugs": ["back-pain-causes", "lower-back-pain-causes", "back-pain-when-sitting", "sciatica-symptoms"],
+    "faq": [{"q": "Ինչ ախտանիշներ կարող են ուղեկցել մեջքի ցավին", "a": "Մեջքի ցավը կարող է ուղեկցվել մկանային լարվածությամբ, շարժունակության սահմանաֆակմամբ կամ նյարդային ախտանիշներով։ Միայն մասնագետը կարող է գնահատել։"}]
   }
 };
 module.exports = { LAUNCHED_KNOWLEDGE_SLUGS, PLANNED_KNOWLEDGE_SLUGS, KNOWLEDGE_CONFIG };

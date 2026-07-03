@@ -43,6 +43,18 @@ const CATEGORY_LABELS = {
   diagnostics: 'Ախտորոշում'
 };
 
+
+const SERVICE_CONDITION_LINKS = {
+  'physiotherapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment'],
+  'manual-therapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment'],
+  'consult-spine': ['herniated-disc', 'lower-back-pain', 'back-pain-treatment'],
+  'consult-neuro': ['leg-numbness', 'sciatica'],
+  'traction': ['herniated-disc', 'sciatica'],
+  'hernia-treatment': ['herniated-disc', 'sciatica'],
+  'massage': ['lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment'],
+  'osteopathy': ['lower-back-pain', 'neck-pain-treatment']
+};
+
 function esc(s) {
   return String(s ?? '')
     .replace(/&/g, '&amp;')
@@ -231,6 +243,18 @@ function serviceBodyHtml(data, service) {
         Այցի համար կարող եք <a href="/contact">կապ հաստատել</a> մեզ հետ։</p>
       </div>
     </section>
+        ${(() => {
+      const { CONDITION_CONFIG } = require('./condition-pages');
+      const condSlugs = SERVICE_CONDITION_LINKS[service.id] || [];
+      if (!condSlugs.length) return '';
+      const items = condSlugs
+        .map((id) => {
+          const c = CONDITION_CONFIG[id];
+          return c ? `<li><a href="/conditions/${esc(id)}">${esc(c.h1)}</a></li>` : '';
+        })
+        .join('');
+      return `<section class="seo-service-section"><h2>Կապված ախտորոշումներ</h2><ul class="hss-list">${items}</ul><p><a href="/conditions" class="hss-link">Բոլոր ախտորոշումները</a></p></section>`;
+    })()}
     ${safetyNote()}
     ${relatedHtml}
     ${(() => {
@@ -255,8 +279,7 @@ function hubMeta(data) {
   return {
     title: `${name} — Ծառայություններ և բուժում | Երևան`,
     description:
-      (h.about && h.about.slice(0, 155)) ||
-      '«Առողջ ողնաշար» վերականգնողական կենտրոնը Երևանում առաջարկում է պոզանոցի և հոդերի կոնսերվատիվ բուժում, մանուալ թերապիա, օստեոպաթիա, ֆիզիոթերապիա և վերականգնողական ծրագրեր։',
+      'Վերականգնողական ծառայություններ՝ մանուալ թերապիա, օստեոպաթիա, ֆիզիոթերապիա, տրակցիա, կինեզիոթերապիա, մասաժ և այլ թերապիաներ «Առողջ ողնաշար» կենտրոնում Երևանում։',
     h1: 'Ծառայություններ',
     tagline: 'Պոզանոցի, հոդերի և շարժական համակարգի կոնսերվատիվ բուժում և վերականգնում Երևանում'
   };
