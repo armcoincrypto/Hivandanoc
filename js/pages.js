@@ -122,6 +122,7 @@ function isSurgeonDoc(doc) {
 function renderDoctors(data, surgeonOnly) {
   const grid = document.getElementById('doctors-grid');
   if (!grid) return;
+  if (document.body?.hasAttribute('data-seo-canonical')) return;
   const t = (k) => I18n.t(k);
   const h = data.hospital || {};
   const tel = HospitalApp.phoneTelUri(h.phone);
@@ -222,6 +223,7 @@ function observeNewCards() {
 function renderDepartments(data, filterCategory) {
   const grid = document.getElementById('departments-grid');
   if (!grid) return;
+  if (document.body?.hasAttribute('data-seo-canonical')) return;
   const t = (k) => I18n.t(k);
   const categories = data.serviceCategories || [];
   const list = filterCategory

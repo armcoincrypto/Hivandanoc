@@ -157,18 +157,11 @@ const SiteSEO = (function () {
     });
   }
 
-  function hreflangUrl(canonicalPath, code) {
-    const u = new URL(canonicalPath, `${SITE.baseUrl}/`);
-    u.searchParams.set('lang', code);
-    return u.href;
-  }
-
   function injectHreflang(canonicalPath) {
     document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
-    LANGS.forEach((code) => {
-      upsertLink('alternate', hreflangUrl(canonicalPath, code), { hreflang: code });
-    });
-    upsertLink('alternate', absoluteUrl(canonicalPath.split('?')[0] || '/'), { hreflang: 'x-default' });
+    const clean = canonicalPath.split('?')[0] || '/';
+    upsertLink('alternate', absoluteUrl(clean), { hreflang: 'hy' });
+    upsertLink('alternate', absoluteUrl(clean), { hreflang: 'x-default' });
   }
 
   function pageDescription(page, title) {

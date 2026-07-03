@@ -40,9 +40,7 @@ function headTags(meta, canonicalPath) {
     <meta name="description" content="${esc(meta.description)}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="${url}">
-    <link rel="alternate" hreflang="hy" href="${url}?lang=hy">
-    <link rel="alternate" hreflang="ru" href="${url}?lang=ru">
-    <link rel="alternate" hreflang="en" href="${url}?lang=en">
+    <link rel="alternate" hreflang="hy" href="${url}">
     <link rel="alternate" hreflang="x-default" href="${url}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Healthy Spine">
