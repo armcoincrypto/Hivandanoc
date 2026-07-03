@@ -42,7 +42,7 @@ function homeCrawlBlock(data) {
       <a href="/contact">Կապ</a> ·
       <a href="/about">Մեր մասին</a>
     </nav>`;
-  const conditionLinks = `<p><a href="/conditions/back-pain-treatment">Պոզանոցի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>`;
+  const conditionLinks = `<p><a href="/conditions/back-pain-treatment">Մեջքի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>`;
   return `<section class="seo-crawl-content" id="seo-crawl-content">
     <h2>${esc(h.name || 'Առողջ ողնաշար')}</h2>
     <p>${esc(h.about || h.mission || '«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն Երևանում։')}</p>
