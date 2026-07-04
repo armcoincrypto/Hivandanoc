@@ -45,7 +45,7 @@ const CATEGORY_LABELS = {
 
 
 const SERVICE_CONDITION_LINKS = {
-  'physiotherapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment', 'shoulder-pain', 'thoracic-back-pain'],
+  'physiotherapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment', 'shoulder-pain', 'thoracic-back-pain', 'posture-disorders'],
   'manual-therapy': ['sciatica', 'lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment', 'shoulder-pain', 'thoracic-back-pain'],
   'consult-spine': ['herniated-disc', 'lower-back-pain', 'back-pain-treatment', 'osteochondrosis'],
   'consult-neuro': ['leg-numbness', 'sciatica', 'radiculopathy'],
@@ -54,7 +54,7 @@ const SERVICE_CONDITION_LINKS = {
   'massage': ['lower-back-pain', 'back-pain-treatment', 'neck-pain-treatment', 'shoulder-pain'],
   'osteopathy': ['lower-back-pain', 'neck-pain-treatment', 'shoulder-pain', 'joint-pain'],
   'scoliosis': ['scoliosis-pain', 'back-pain-treatment'],
-  'kinesiotherapy': ['scoliosis-pain', 'lower-back-pain', 'thoracic-back-pain'],
+  'kinesiotherapy': ['scoliosis-pain', 'lower-back-pain', 'thoracic-back-pain', 'posture-disorders'],
   'osteochondrosis': ['osteochondrosis', 'back-pain-treatment'],
   'radiculitis': ['radiculopathy', 'sciatica'],
   'arthrosis': ['joint-pain', 'back-pain-treatment'],

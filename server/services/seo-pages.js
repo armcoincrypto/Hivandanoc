@@ -43,7 +43,7 @@ function homeCrawlBlock(data) {
       <a href="/about">Մեր մասին</a> ·
       <a href="/consultation-process">Խորհրդատվության գործընթաց</a>
     </nav>`;
-  const conditionLinks = `<p><a href="/conditions/back-pain-treatment">Մեջքի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions/sciatica">Իշիաս</a> · <a href="/conditions/herniated-disc">Սկավառակի ճողվածք</a> · <a href="/conditions/lower-back-pain">Գոտկային ցավ</a> · <a href="/conditions/leg-numbness">Ոտքի թմրածություն</a> · <a href="/conditions/shoulder-pain">Ուսային ցավ</a> · <a href="/conditions/osteochondrosis">Օստեոխոնդրոզ</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>`;
+  const conditionLinks = `<p><a href="/conditions/back-pain-treatment">Մեջքի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions/sciatica">Իշիաս</a> · <a href="/conditions/herniated-disc">Սկավառակի ճողվածք</a> · <a href="/conditions/lower-back-pain">Գոտկային ցավ</a> · <a href="/conditions/leg-numbness">Ոտքի թմրածություն</a> · <a href="/conditions/shoulder-pain">Ուսային ցավ</a> · <a href="/conditions/osteochondrosis">Օստեոխոնդրոզ</a> · <a href="/conditions/posture-disorders">Կեցվածքի խանգարումներ</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>`;
   return `<section class="seo-crawl-content" id="seo-crawl-content">
     <h2>${esc(h.name || 'Առողջ ողնաշար')}</h2>
     <p>${esc(h.about || h.mission || '«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն Երևանում։')}</p>

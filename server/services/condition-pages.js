@@ -8,7 +8,7 @@ const SITE_ROOT = path.join(__dirname, '../..');
 const BASE = (process.env.PUBLIC_SITE_URL || 'https://healthyspinedoc.com').replace(/\/$/, '');
 
 /** P3.3 launch batch + P1.2-A expansion + P1.3-A authority expansion */
-const LAUNCHED_CONDITION_SLUGS = ['back-pain-treatment', 'neck-pain-treatment', 'sciatica', 'herniated-disc', 'lower-back-pain', 'leg-numbness', 'shoulder-pain', 'joint-pain', 'scoliosis-pain', 'osteochondrosis', 'radiculopathy', 'thoracic-back-pain'];
+const LAUNCHED_CONDITION_SLUGS = ['back-pain-treatment', 'neck-pain-treatment', 'sciatica', 'herniated-disc', 'lower-back-pain', 'leg-numbness', 'shoulder-pain', 'joint-pain', 'scoliosis-pain', 'osteochondrosis', 'radiculopathy', 'thoracic-back-pain', 'posture-disorders'];
 
 const CONDITION_CONFIG = {
   'back-pain-treatment': {
@@ -322,6 +322,31 @@ const CONDITION_CONFIG = {
     serviceSlugs: ['manual-therapy', 'physiotherapy', 'osteopathy', 'kinesiotherapy'],
     servicesIntro:
       'Կրծքային շրջանի ցավի դեպքում վերականգնողական կենտրոնում կարող են դիտարկվել հետևյալ ծառայությունները՝ միայն մասնագետի գնահատումից հետո։'
+  },
+  'posture-disorders': {
+    h1: 'Կեցվածքի խանգարումներ և վերականգնում',
+    tagline: 'Կոնսերվատիվ մոտեցում կեցվածքի խանգարումների գնահատման և վերականգնման համար',
+    titleSuffix: 'Կեցվածքի խանգարումներ — վերականգնում և խորհրդատվություն',
+    description:
+      'Կեցվածքի խանգարումների գնահատում և վերականգնողական աջակցություն «Առողջ ողնաշար» կենտրոնում Երևանում։ Ֆիզիոթերապիա, կինեզիոթերապիա։',
+    intro: 'Կեցվածքի խանգարումները կարող են ազդել մեջքի, պարանոցի և կրծքային շրջանի ցավի վրա, մկանային լարվածության և շարժունակության սահմանաֆակումների վրա։ «Առողջ ողնաշար» վերականգնողական կենտրոնը Երևանում կարող է առաջարկել կոնսերվատիվ գնահատում՝ մասնագետի խորհրդատվությունից հետո։',
+    symptoms: [
+      'Մեջքի կամ պարանոցի ցավ երկար նստելիս կամ կանգնելիս',
+      'Մկանային լարվածություն ոլոքների և պարանոցի շրջանում',
+      'Գլխի ցավեր կապված կեցվածքի խնդիրների հետ',
+      'Շարժունակության սահմանաֆակում',
+      'Անհարմարություն երկար կանգնելիս կամ նստելիս'
+    ],
+    whenToSeek: [
+      'Եթե կեցվածքի խնդիրները ուղեկցվում են ցավով',
+      'Եթե ցավը տևում է մի քանի շաբաթից ավելի',
+      'Եթե խանգարում է առօրյա գործունեությանը',
+      'Եթե նյարդային ախտանիշներ կան',
+      'Արտակարգ իրավիճակներում դիմեք 103'
+    ],
+    serviceSlugs: ['kinesiotherapy', 'physiotherapy', 'manual-therapy', 'osteopathy'],
+    servicesIntro:
+      'Կեցվածքի խանգարումների դեպքում վերականգնողական կենտրոնում կարող են դիտարկվել հետևյալ ծառայությունները՝ միայն մասնագետի գնահատումից հետո։'
   }
 };
 
