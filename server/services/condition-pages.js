@@ -558,7 +558,7 @@ function hubBodyHtml() {
         )
         .join('')}</ul>
     </section>
-    <p><a href="/services" class="hss-link">Ծառայություններ</a> · <a href="/knowledge" class="hss-link">Գիտելիքների կենտրոն</a> · <a href="/contact" class="hss-link">Կապ</a> · <a href="/locations" class="hss-link">Հասցե</a></p>
+    <p><a href="/services" class="hss-link">Ծառայություններ</a> · <a href="/knowledge" class="hss-link">Գիտելիքների կենտրոն</a> · <a href="/contact" class="hss-link">Կապ</a> · <a href="/locations" class="hss-link">Հասցե</a> · <a href="/about-doctor" class="hss-link">Բժշկի մասին</a> · <a href="/spine-specialist-yerevan" class="hss-link">Ողնաշարի մասնագետ</a></p>
     ${ctaBlock()}
   </article>`;
 }

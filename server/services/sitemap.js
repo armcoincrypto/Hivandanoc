@@ -3,6 +3,7 @@ const path = require('path');
 const { getLaunchedServiceSlugs } = require('./service-pages');
 const { getLaunchedConditionSlugs } = require('./condition-pages');
 const { getLaunchedKnowledgeSlugs } = require('./knowledge-pages');
+const { LAUNCHED_AUTHORITY_SLUGS } = require('./local-authority-pages');
 
 const SITE_ROOT = path.join(__dirname, '../..');
 
@@ -88,6 +89,15 @@ function buildSitemapEntries() {
       lastmod: today,
       changefreq: 'monthly',
       priority: '0.88'
+    });
+  }
+
+  for (const authorityPath of LAUNCHED_AUTHORITY_SLUGS) {
+    entries.push({
+      loc: `${base}${authorityPath}`,
+      lastmod: today,
+      changefreq: 'monthly',
+      priority: '0.85'
     });
   }
 

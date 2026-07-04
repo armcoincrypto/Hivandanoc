@@ -51,7 +51,7 @@ function homeCrawlBlock(data) {
     ${conditionItems ? `<h3>Բուժվող վիճակներ</h3><ul>${conditionItems}</ul>` : ''}
     ${conditionLinks}
     <p><a href="/knowledge">Գիտելիքների կենտրոն</a> · <a href="/knowledge/back-pain-causes">Մեջքի ցավի պատճառներ</a> · <a href="/knowledge/sciatica-symptoms">Իշիասի ախտանիշներ</a> · <a href="/knowledge/herniated-disc-symptoms">Սկավառակի ախտանիշներ</a> · <a href="/knowledge/lower-back-pain-causes">Գոտկային ցավի պատճառներ</a></p>
-    <p><a href="/consultation-process">Խորհրդատվության գործընթաց</a></p>
+    <p><a href="/consultation-process">Խորհրդատվության գործընթաց</a> · <a href="/spine-specialist-yerevan">Ողնաշարի մասնագետ Երևանում</a> · <a href="/about-doctor">Բժշկի մասին</a> · <a href="/editorial-policy">Խմբագրական քաղաքականություն</a> · <a href="/spine-health-resources">Ռեսուրսներ</a></p>
     <p><strong>Հեռախոս.</strong> ${esc(h.phone || '')} · <strong>Հասցե.</strong> ${esc(h.address || 'Երևան, Հայաստան')}</p>
     ${nav}
   </section>`;

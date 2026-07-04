@@ -3,12 +3,22 @@ const { ROUTES, serveSeoPage } = require('../services/seo-pages');
 const { serveServicesHub, serveServicePage } = require('../services/service-pages');
 const { serveConditionsHub, serveConditionPage } = require('../services/condition-pages');
 const { serveKnowledgeHub, serveKnowledgeArticle } = require('../services/knowledge-pages');
+const { LAUNCHED_AUTHORITY_SLUGS, servePage } = require('../services/local-authority-pages');
 
 const router = express.Router();
 
 Object.keys(ROUTES).forEach((routePath) => {
   router.get(routePath, (req, res) => {
     const html = serveSeoPage(routePath);
+    if (!html) return res.status(404).send('Not found');
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    res.type('html').send(html);
+  });
+});
+
+LAUNCHED_AUTHORITY_SLUGS.forEach((routePath) => {
+  router.get(routePath, (req, res) => {
+    const html = servePage(routePath);
     if (!html) return res.status(404).send('Not found');
     res.setHeader('Cache-Control', 'public, max-age=300');
     res.type('html').send(html);

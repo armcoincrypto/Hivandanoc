@@ -349,7 +349,7 @@ function hubBodyHtml(data) {
     </div>
     ${priorityBlock}
     ${categoryBlocks}
-    <p><a href="/conditions" class="hss-link">Ախտորոշումներ և ցավի թեմաներ</a> · <a href="/knowledge" class="hss-link">Գիտելիքների կենտրոն</a> · <a href="/patient-care" class="hss-link">Բժշկական ծառայությունների ամբողջական ցանկ</a> · <a href="/find-a-doctor" class="hss-link">Գտնել բժիշկ</a> · <a href="/locations" class="hss-link">Հասցե</a></p>
+    <p><a href="/conditions" class="hss-link">Ախտորոշումներ և ցավի թեմաներ</a> · <a href="/knowledge" class="hss-link">Գիտելիքների կենտրոն</a> · <a href="/patient-care" class="hss-link">Բժշկական ծառայությունների ամբողջական ցանկ</a> · <a href="/find-a-doctor" class="hss-link">Գտնել բժիշկ</a> · <a href="/locations" class="hss-link">Հասցե</a> · <a href="/about-doctor" class="hss-link">Բժշկի մասին</a> · <a href="/spine-specialist-yerevan" class="hss-link">Ողնաշարի մասնագետ</a></p>
     ${ctaBlock('')}
   </article>`;
 }
