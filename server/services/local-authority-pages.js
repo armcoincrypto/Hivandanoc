@@ -22,6 +22,7 @@ function headMeta(config) {
   const url = `${BASE}${config.path}`;
   const image = `${BASE}/images/brand/logo.png`;
   return `<link rel="icon" href="${BASE}/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="${BASE}/apple-touch-icon.png">
     <meta name="description" content="${esc(config.description)}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="${url}">

@@ -87,6 +87,7 @@ function headTags(meta, canonicalPath) {
   return `
     <link rel="icon" href="${BASE}/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="${BASE}/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="${BASE}/apple-touch-icon.png">
     <meta name="description" content="${esc(meta.description)}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="${url}">
