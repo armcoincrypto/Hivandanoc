@@ -802,10 +802,7 @@ PAGES['/media-and-expert-commentary'] = {
     '<li>Սպորտային վնասվածքներից վերականգնում</li>' +
     '<li>Աշխատանքային էրգոնոմիկա և կեցվածք</li>' +
     '</ul></section>' +
-    '<section class="seo-service-section">' +
-    '<h2>Կապ հաստատել</h2>' +
-    '<p>Լրատվական միջոցների, հարցազրույցների կամ մեկնաբանությունների համար կապ հաստատեք էլ. փոստով՝ spinemedicalclinic@gmail.com</p>' +
-    '</section>' +
+    contactBlock() +
     '<p><a href="/about-doctor" class="hss-link">Բժշկի մասին</a> · <a href="/spine-health-resources" class="hss-link">Ռեսուրսներ</a></p>'
 };
 
