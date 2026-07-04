@@ -52,7 +52,8 @@ function homeCrawlBlock(data) {
     ${conditionLinks}
     <p><a href="/knowledge">Գիտելիքների կենտրոն</a> · <a href="/knowledge/back-pain-causes">Մեջքի ցավի պատճառներ</a> · <a href="/knowledge/sciatica-symptoms">Իշիասի ախտանիշներ</a> · <a href="/knowledge/herniated-disc-symptoms">Սկավառակի ախտանիշներ</a> · <a href="/knowledge/lower-back-pain-causes">Գոտկային ցավի պատճառներ</a></p>
     <p><a href="/consultation-process">Խորհրդատվության գործընթաց</a> · <a href="/spine-specialist-yerevan">Ողնաշարի մասնագետ Երևանում</a> · <a href="/about-doctor">Բժշկի մասին</a> · <a href="/editorial-policy">Խմբագրական քաղաքականություն</a> · <a href="/spine-health-resources">Ռեսուրսներ</a></p>
-    <p><strong>Հեռախոս.</strong> ${esc(h.phone || '')} · <strong>Հասցե.</strong> ${esc(h.address || 'Երևան, Հայաստան')}</p>
+    <p><strong>Հեռախոս.</strong> <a href="tel:${(h.phone || '').replace(/[^+\d]/g, '')}" class="hss-tel">${esc(h.phone || '')}</a> · <strong>Էլ. փոստ.</strong> <a href="mailto:${esc(h.email || '')}">${esc(h.email || '')}</a> · <strong>Հասցե.</strong> <a href="https://maps.google.com/?q=${encodeURIComponent(h.mapsQuery || h.address || '')}" target="_blank" rel="noopener">${esc(h.address || 'Երևան, Հայաստան')}</a></p>
+    <p style="margin-top:0.5em"><a href="/consultation-process" class="hss-link hss-cta-link">→ Գրանցվել խորհրդատվության</a></p>
     ${nav}
   </section>`;
 }
@@ -237,6 +238,13 @@ function consultationBodyHtml(data) {
       <div class="hss-prose"><p>Այս էջը տեղեկատվական է և չի փոխարինում բժշկական ախտորոշումը կամ խորհրդատվությունը։ Կենտրոնը չի երաշխավորում կոնկրետ արդյունքներ կամ ամբողջական ազատում ցավից։</p></div>
     </section>
     <p><a href="/services" class="hss-link">Ծառայություններ</a> · <a href="/conditions" class="hss-link">Ախտորոշումներ</a> · <a href="/knowledge" class="hss-link">Գիտելիքների կենտրոն</a></p>
+    <section class="seo-service-section hss-contact-block">
+      <h2>Կապ հաստատել</h2>
+      <p><strong>Հեռախոս՝</strong> <a href="tel:${(h.phone || '').replace(/[^+\d]/g, '')}" class="hss-tel">${esc(h.phone || '')}</a></p>
+      <p><strong>Էլ. փոստ՝</strong> <a href="mailto:${esc(h.email || '')}">${esc(h.email || '')}</a></p>
+      <p><strong>Հասցե՝</strong> <a href="https://maps.google.com/?q=${encodeURIComponent(h.mapsQuery || h.address || '')}" target="_blank" rel="noopener">${esc(h.address || '')}</a></p>
+      <p><strong>Աշխատանքային ժամեր՝</strong> ${esc(h.hours || '')}</p>
+    </section>
     <nav class="seo-service-cta" aria-label="Next steps">
       <p><a href="/contact" class="hss-btn hss-btn--primary">Գրանցվել ընդունելության</a>
       <a href="/contact" class="hss-btn hss-btn--outline">Կապ</a>
@@ -273,15 +281,20 @@ function breadcrumb(url, name) {
 
 function contactBlock(data, variant) {
   const h = data?.hospital || {};
+  const phone = h.phone || '';
+  const phoneClean = phone.replace(/[^+\d]/g, '');
+  const email = h.email || '';
+  const address = h.address || 'Երևան, Հայաստան';
   const map =
     variant === 'locations'
-      ? `<p><strong>Հասցե.</strong> ${esc(h.address || 'Երևան, Հայաստան')}</p><p>Քարտեզը և ուղղությունները հասանելի են այս էջում։</p>`
+      ? `<p><strong>Հասցե.</strong> <a href="https://maps.google.com/?q=${encodeURIComponent(h.mapsQuery || address)}" target="_blank" rel="noopener">${esc(address)}</a></p><p>Քարտեզը և ուղղությունները հասանելի են այս էջում։</p>`
       : '';
-  return `<section class="seo-crawl-content" id="seo-crawl-content">
-    <p><strong>Հեռախոս.</strong> ${esc(h.phone || '')}</p>
-    <p><strong>Էլ. փոստ.</strong> ${esc(h.email || '')}</p>
+  return `<section class="seo-crawl-content hss-contact-block" id="seo-crawl-content">
+    <p><strong>Հեռախոս.</strong> <a href="tel:${phoneClean}" class="hss-tel">${esc(phone)}</a></p>
+    <p><strong>Էլ. փոստ.</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>
     <p><strong>Աշխատանքային ժամեր.</strong> ${esc(h.hours || '')}</p>
     ${map}
+    <p style="margin-top:0.5em"><a href="/consultation-process" class="hss-link hss-cta-link">→ Գրանցվել խորհրդատվության</a></p>
   </section>`;
 }
 

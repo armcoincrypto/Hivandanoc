@@ -13,11 +13,14 @@ function esc(s) {
 }
 
 function contactBlock() {
-  return `<section class="seo-service-section">
+  const phoneClean = CLINIC_PHONE.replace(/[^+\d]/g, '');
+  return `<section class="seo-service-section hss-contact-block">
       <h2>Կապ հաստատել</h2>
-      <p><strong>Հասցե՝</strong> ${CLINIC_ADDRESS}</p>
-      <p><strong>Հեռախոս՝</strong> ${CLINIC_PHONE}</p>
+      <p><strong>Հասցե՝</strong> <a href="https://maps.google.com/?q=6+Margaryan+St,+Yerevan+0078,+Armenia" target="_blank" rel="noopener">${CLINIC_ADDRESS}</a></p>
+      <p><strong>Հեռախոս՝</strong> <a href="tel:${phoneClean}" class="hss-tel">${CLINIC_PHONE}</a></p>
+      <p><strong>Էլ. փոստ՝</strong> <a href="mailto:info@healthyspine.am">info@healthyspine.am</a></p>
       <p><strong>Աշխատանքային ժամեր՝</strong> ${CLINIC_HOURS}</p>
+      <p style="margin-top:1em"><a href="/consultation-process" class="hss-link hss-cta-link">→ Գրանցվել խորհրդատվության</a></p>
     </section>`;
 }
 
@@ -829,6 +832,7 @@ PAGES['/spine-health-resources'] = {
     knowledgeLinks() +
     '<p><a href="/knowledge" class="hss-link">Բոլոր հոդվածները</a></p>' +
     '</section>' +
+    contactBlock() +
     '<p><a href="/about-doctor" class="hss-link">Բժշկի մասին</a> · <a href="/editorial-policy" class="hss-link">Խմբագրական քաղաքականություն</a></p>'
 };
 
