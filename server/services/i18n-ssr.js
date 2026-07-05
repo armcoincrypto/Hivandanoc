@@ -222,11 +222,12 @@ function breadcrumbItems(names, baseUrl, lang) {
 }
 
 function breadcrumbNavHtml(segments, lang) {
+  lang = normalizeLang(lang);
   const u = ui(lang);
-  const parts = [`<a href="/">${esc(u.home)}</a>`];
+  const parts = [`<a href="${localeHref('/', lang)}">${esc(u.home)}</a>`];
   segments.forEach((seg, i) => {
     if (i < segments.length - 1) {
-      parts.push(`<a href="${esc(seg.href)}">${esc(seg.label)}</a>`);
+      parts.push(`<a href="${esc(localeHref(seg.href, lang))}">${esc(seg.label)}</a>`);
     } else {
       parts.push(`<span>${esc(seg.label)}</span>`);
     }
@@ -256,6 +257,34 @@ function applyHtmlLang(html, lang) {
   return html.replace('<html>', `<html lang="${lang}">`);
 }
 
+/** Append ?lang=ru|en to internal paths; HY uses clean URLs. */
+function localeHref(path, lang = 'hy') {
+  lang = normalizeLang(lang);
+  if (!path || path === '#' || lang === 'hy') return path || '/';
+  if (/^(mailto:|tel:|javascript:|https?:)/i.test(path)) return path;
+  if (!path.startsWith('/')) return path;
+
+  const hashIdx = path.indexOf('#');
+  const hash = hashIdx >= 0 ? path.slice(hashIdx) : '';
+  const base = hashIdx >= 0 ? path.slice(0, hashIdx) : path;
+  const qIdx = base.indexOf('?');
+  const pathname = qIdx >= 0 ? base.slice(0, qIdx) : base;
+  const params = new URLSearchParams(qIdx >= 0 ? base.slice(qIdx + 1) : '');
+  params.set('lang', lang);
+  const qs = params.toString();
+  return `${pathname}?${qs}${hash}`;
+}
+
+/** Rewrite anchor href attributes for RU/EN SSR output. Skips stylesheets and other link tags. */
+function injectLocaleIntoLinks(html, lang = 'hy') {
+  lang = normalizeLang(lang);
+  if (lang === 'hy' || !html) return html;
+  return html.replace(/<a\b([^>]*?)\bhref="(\/[^"]*)"/gi, (full, attrs, path) => {
+    if (/^(mailto:|tel:|javascript:|https?:)/i.test(path)) return full;
+    return `<a${attrs}href="${localeHref(path, lang)}"`;
+  });
+}
+
 function localizedAddress(h, lang) {
   if (lang === 'ru') return h.address || 'ул. Маргарян, 6, Ереван 0078';
   if (lang === 'en') return h.address || '6 Margaryan St, Yerevan 0078';
@@ -279,7 +308,7 @@ function contactBlockHtml(data, lang, variant = 'contact', options = {}) {
     <p><strong>${esc(u.email)}</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>
     <p><strong>${esc(u.hours)}</strong> ${esc(h.hours || '')}</p>
     ${map}
-    <p style="margin-top:0.5em"><a href="/consultation-process" class="hss-link hss-cta-link">${esc(u.bookConsultation)}</a></p>
+    <p style="margin-top:0.5em"><a href="${localeHref('/consultation-process', lang)}" class="hss-link hss-cta-link">${esc(u.bookConsultation)}</a></p>
   </section>`;
 }
 
@@ -310,9 +339,9 @@ function safetyNoteBlock(lang = 'hy') {
 function ctaBlockHtml(lang = 'hy') {
   const u = ui(normalizeLang(lang));
   return `<nav class="seo-service-cta" aria-label="Next steps">
-    <p><a href="/contact" class="hss-btn hss-btn--primary">${esc(u.bookAppointment)}</a>
-    <a href="/consultation-process" class="hss-btn hss-btn--outline">${esc(u.consultation)}</a>
-    <a href="/find-a-doctor" class="hss-link">${esc(u.findDoctors)}</a></p>
+    <p><a href="${localeHref('/contact', lang)}" class="hss-btn hss-btn--primary">${esc(u.bookAppointment)}</a>
+    <a href="${localeHref('/consultation-process', lang)}" class="hss-btn hss-btn--outline">${esc(u.consultation)}</a>
+    <a href="${localeHref('/find-a-doctor', lang)}" class="hss-link">${esc(u.findDoctors)}</a></p>
   </nav>`;
 }
 
@@ -337,6 +366,8 @@ module.exports = {
   esc,
   applyHtmlLang,
   localizedAddress,
+  localeHref,
+  injectLocaleIntoLinks,
   contactBlockHtml,
   emergencyRedFlagBlock,
   editorialTrustBlock,

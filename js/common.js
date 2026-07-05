@@ -702,7 +702,7 @@ const HospitalApp = (function () {
     if (!h) h = {};
     const lat = Number(h.mapLat ?? h.latitude ?? 40.2074194);
     const lng = Number(h.mapLng ?? h.longitude ?? 44.4782661);
-    const params = new URLSearchParams({ q: `${lat},${lng}`, z: '17', hl: 'ru', output: 'embed' });
+    const params = new URLSearchParams({ ll: `${lat},${lng}`, z: '17', hl: 'ru', output: 'embed' });
     return `https://maps.google.com/maps?${params.toString()}`;
   }
 
@@ -712,10 +712,10 @@ const HospitalApp = (function () {
     const lat = h.mapLat ?? h.latitude;
     const lng = h.mapLng ?? h.longitude;
     if (lat != null && lng != null && String(lat) !== '' && String(lng) !== '') {
-      return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lng}`)}`;
+      return `https://yandex.ru/navi/?rtext=~${lat},${lng}`;
     }
     const q = h.mapsQuery || h.address || brandName() + ', Yerevan, Armenia';
-    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`;
+    return `https://yandex.ru/maps/?rtext=~${encodeURIComponent(q)}&rtt=auto`;
   }
 
   function renderHospitalMap(container, h) {
@@ -1441,43 +1441,49 @@ const HospitalApp = (function () {
     if (initPromise) return initPromise;
     initPromise = (async () => {
       try {
-        await I18n.init();
-      } catch {
-        /* nav всё равно рисуем с fallback-языками */
-      }
+        try {
+          await I18n.init();
+        } catch {
+          /* nav всё равно рисуем с fallback-языками */
+        }
 
-      renderNav();
-      renderFooter();
-
-      checkPreviewMode();
-
-      try {
-        await loadData();
-        applyBranding();
         renderNav();
         renderFooter();
-      } catch (err) {
-        console.error('[HospitalApp] loadData failed:', err);
+
+        checkPreviewMode();
+
+        try {
+          await loadData();
+          applyBranding();
+          renderNav();
+          renderFooter();
+        } catch (err) {
+          console.error('[HospitalApp] loadData failed:', err);
+        }
+
+        I18n.applyDOM();
+        try {
+          initAnimations();
+        } catch (err) {
+          console.error('[HospitalApp] initAnimations failed:', err);
+        }
+        initPageUtilities();
+        initCompliance();
+
+        if (!i18nHooked) {
+          i18nHooked = true;
+          I18n.onChange(() => refreshLanguage());
+        }
+
+        if (typeof CmsContent !== 'undefined' && CmsContent.startVersionWatch) {
+          CmsContent.startVersionWatch(30000);
+        }
+
+        return getData();
+      } finally {
+        document.documentElement.classList.remove('i18n-pending');
+        document.documentElement.classList.add('i18n-ready');
       }
-
-      I18n.applyDOM();
-      initAnimations();
-      initPageUtilities();
-      initCompliance();
-
-      if (!i18nHooked) {
-        i18nHooked = true;
-        I18n.onChange(() => refreshLanguage());
-      }
-
-      if (typeof CmsContent !== 'undefined' && CmsContent.startVersionWatch) {
-        CmsContent.startVersionWatch(30000);
-      }
-
-      document.documentElement.classList.remove('i18n-pending');
-      document.documentElement.classList.add('i18n-ready');
-
-      return getData();
     })();
     return initPromise;
   }

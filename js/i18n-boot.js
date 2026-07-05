@@ -82,4 +82,9 @@
   }
 
   window.__I18N_BOOT_LANG__ = lang;
+
+  setTimeout(() => {
+    document.documentElement.classList.remove('i18n-pending');
+    document.documentElement.classList.add('i18n-ready');
+  }, 4000);
 })();
