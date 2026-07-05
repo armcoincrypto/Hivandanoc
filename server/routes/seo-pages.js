@@ -4,6 +4,7 @@ const { serveServicesHub, serveServicePage } = require('../services/service-page
 const { serveConditionsHub, serveConditionPage } = require('../services/condition-pages');
 const { serveKnowledgeHub, serveKnowledgeArticle } = require('../services/knowledge-pages');
 const { LAUNCHED_AUTHORITY_SLUGS, servePage } = require('../services/local-authority-pages');
+const { normalizeLang } = require('../services/i18n-ssr');
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ Object.keys(ROUTES).forEach((routePath) => {
 
 LAUNCHED_AUTHORITY_SLUGS.forEach((routePath) => {
   router.get(routePath, (req, res) => {
-    const html = servePage(routePath);
+    const html = servePage(routePath, req.query.lang);
     if (!html) return res.status(404).send('Not found');
     res.setHeader('Cache-Control', 'public, max-age=300');
     res.type('html').send(html);
@@ -26,42 +27,42 @@ LAUNCHED_AUTHORITY_SLUGS.forEach((routePath) => {
 });
 
 router.get('/services', (req, res) => {
-  const html = serveServicesHub();
+  const html = serveServicesHub(req.query.lang);
   if (!html) return res.status(404).send('Not found');
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.type('html').send(html);
 });
 
 router.get('/services/:slug', (req, res) => {
-  const html = serveServicePage(req.params.slug);
+  const html = serveServicePage(req.params.slug, req.query.lang);
   if (!html) return res.status(404).send('Not found');
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.type('html').send(html);
 });
 
 router.get('/conditions', (req, res) => {
-  const html = serveConditionsHub();
+  const html = serveConditionsHub(req.query.lang);
   if (!html) return res.status(404).send('Not found');
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.type('html').send(html);
 });
 
 router.get('/conditions/:slug', (req, res) => {
-  const html = serveConditionPage(req.params.slug);
+  const html = serveConditionPage(req.params.slug, req.query.lang);
   if (!html) return res.status(404).send('Not found');
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.type('html').send(html);
 });
 
 router.get('/knowledge', (req, res) => {
-  const html = serveKnowledgeHub();
+  const html = serveKnowledgeHub(req.query.lang);
   if (!html) return res.status(404).send('Not found');
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.type('html').send(html);
 });
 
 router.get('/knowledge/:slug', (req, res) => {
-  const html = serveKnowledgeArticle(req.params.slug);
+  const html = serveKnowledgeArticle(req.params.slug, req.query.lang);
   if (!html) return res.status(404).send('Not found');
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.type('html').send(html);
