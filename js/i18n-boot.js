@@ -8,6 +8,12 @@
   function resolveLang() {
     let lang = 'hy';
     try {
+      const qp = new URLSearchParams(location.search).get('lang');
+      if (qp && CODES.includes(qp)) return qp;
+    } catch {
+      /* ignore */
+    }
+    try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved && CODES.includes(saved)) lang = saved;
     } catch {

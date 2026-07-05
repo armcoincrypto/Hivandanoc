@@ -25,42 +25,133 @@ function dictPath(dict, key) {
   return key.split('.').reduce((o, p) => (o && o[p] !== undefined ? o[p] : undefined), dict);
 }
 
-function homeCrawlBlock(data) {
-  const h = data?.hospital || {};
+function normalizeLang(raw) {
+  return ['hy', 'ru', 'en'].includes(raw) ? raw : 'hy';
+}
+
+const HOME_CRAWL = {
+  hy: {
+    navAria: 'Կայքի բաժիններ',
+    conditionsH: 'Բուժվող վիճակներ',
+    phone: 'Հեռախոս.',
+    email: 'Էլ. փոստ.',
+    address: 'Հասցե.',
+    cta: '→ Գրանցվել խորհրդատվության',
+    fallbackAbout: '«Առողջ ողնաշար» — ողնաշարի և հոդերի վերականգնողական կենտրոն Երևանում։',
+    nav: [
+      ['/services', 'Ծառայություններ'],
+      ['/conditions', 'Ախտորոշումներ'],
+      ['/knowledge', 'Գիտելիքների կենտրոն'],
+      ['/patient-care', 'Բուժում և ծառայություններ'],
+      ['/find-a-doctor', 'Գտնել բժիշկ'],
+      ['/locations', 'Հասցեներ'],
+      ['/contact', 'Կապ'],
+      ['/about', 'Մեր մասին'],
+      ['/consultation-process', 'Խորհրդատվության գործընթաց']
+    ],
+    extraLinks:
+      '<p><a href="/conditions/back-pain-treatment">Մեջքի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions/sciatica">Իշիաս</a> · <a href="/conditions/herniated-disc">Սկավառակի ճողվածք</a> · <a href="/conditions/lower-back-pain">Գոտկային ցավ</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>' +
+      '<p><a href="/knowledge">Գիտելիքների կենտրոն</a> · <a href="/knowledge/back-pain-causes">Մեջքի ցավի պատճառներ</a> · <a href="/consultation-process">Խորհրդատվության գործընթաց</a> · <a href="/spine-specialist-yerevan">Ողնաշարի մասնագետ</a></p>'
+  },
+  ru: {
+    navAria: 'Разделы сайта',
+    conditionsH: 'Лечимые состояния',
+    phone: 'Телефон:',
+    email: 'Эл. почта:',
+    address: 'Адрес:',
+    cta: '→ Записаться на консультацию',
+    fallbackAbout:
+      '«Здоровый позвоночник» — реабилитационный центр консервативного лечения заболеваний позвоночника, суставов и опорно-двигательного аппарата в Ереване.',
+    nav: [
+      ['/services', 'Услуги'],
+      ['/conditions', 'Диагнозы'],
+      ['/knowledge', 'База знаний'],
+      ['/patient-care', 'Лечение и услуги'],
+      ['/find-a-doctor', 'Найти врача'],
+      ['/locations', 'Адреса'],
+      ['/contact', 'Контакты'],
+      ['/about', 'О нас'],
+      ['/consultation-process', 'Как проходит консультация']
+    ],
+    extraLinks:
+      '<p><a href="/conditions/back-pain-treatment">Боль в спине</a> · <a href="/conditions/neck-pain-treatment">Боль в шее</a> · <a href="/conditions/sciatica">Ишиас</a> · <a href="/conditions/herniated-disc">Грыжа диска</a> · <a href="/conditions">Все диагнозы</a></p>' +
+      '<p><a href="/knowledge">База знаний</a> · <a href="/consultation-process">Консультация</a> · <a href="/spine-specialist-yerevan">Специалист по позвоночнику</a> · <a href="/editorial-policy">Редакционная политика</a></p>'
+  },
+  en: {
+    navAria: 'Site sections',
+    conditionsH: 'Conditions we treat',
+    phone: 'Phone:',
+    email: 'Email:',
+    address: 'Address:',
+    cta: '→ Book a consultation',
+    fallbackAbout:
+      'Healthy Spine is a rehabilitation center in Yerevan offering conservative care for spine, joint, and musculoskeletal conditions.',
+    nav: [
+      ['/services', 'Services'],
+      ['/conditions', 'Conditions'],
+      ['/knowledge', 'Knowledge center'],
+      ['/patient-care', 'Patient care'],
+      ['/find-a-doctor', 'Find a doctor'],
+      ['/locations', 'Locations'],
+      ['/contact', 'Contact'],
+      ['/about', 'About us'],
+      ['/consultation-process', 'Consultation process']
+    ],
+    extraLinks:
+      '<p><a href="/conditions/back-pain-treatment">Back pain</a> · <a href="/conditions/neck-pain-treatment">Neck pain</a> · <a href="/conditions/sciatica">Sciatica</a> · <a href="/conditions/herniated-disc">Herniated disc</a> · <a href="/conditions">All conditions</a></p>' +
+      '<p><a href="/knowledge">Knowledge center</a> · <a href="/consultation-process">Consultation</a> · <a href="/spine-specialist-yerevan">Spine specialist</a> · <a href="/editorial-policy">Editorial policy</a></p>'
+  }
+};
+
+function localizedClinicName(h, lang) {
+  if (lang === 'ru') return 'Здоровый позвоночник';
+  if (lang === 'en') return 'Healthy Spine';
+  return h.name || 'Առողջ ողնաշար';
+}
+
+function localizedClinicAbout(h, lang, ui) {
+  if (lang !== 'hy') return ui.fallbackAbout;
   const dict = loadLangDict('hy');
+  const intro = dict.content?.introParagraphs;
+  if (Array.isArray(intro) && intro[0]) return intro[0];
+  return h.about || ui.fallbackAbout;
+}
+
+function localizedClinicAddress(h, lang) {
+  if (lang === 'ru') return h.address || 'ул. Маргарян, 6, Ереван 0078';
+  if (lang === 'en') return h.address || '6 Margaryan St, Yerevan 0078';
+  return h.address || '6 Մարգարյան փ., Երևան 0078';
+}
+
+function homeCrawlBlock(data, lang = 'hy') {
+  lang = normalizeLang(lang);
+  const ui = HOME_CRAWL[lang] || HOME_CRAWL.hy;
+  const h = data?.hospital || {};
+  const dict = loadLangDict(lang);
   const conditions = (dict.content?.conditions || data?.conditions || []).slice(0, 8);
   const conditionItems = conditions.length
     ? conditions.map((c) => `<li>${esc(typeof c === 'string' ? c : c.name || c)}</li>`).join('')
     : '';
-  const nav = `
-    <nav class="seo-crawl-nav" aria-label="Կայքի բաժիններ">
-      <a href="/services">Ծառայություններ</a> ·
-      <a href="/conditions">Ախտորոշումներ</a> ·
-      <a href="/knowledge">Գիտելիքների կենտրոն</a> ·
-      <a href="/patient-care">Բուժում և ծառայություններ</a> ·
-      <a href="/find-a-doctor">Գտնել բժիշկ</a> ·
-      <a href="/locations">Հասցեներ</a> ·
-      <a href="/contact">Կապ</a> ·
-      <a href="/about">Մեր մասին</a> ·
-      <a href="/consultation-process">Խորհրդատվության գործընթաց</a>
-    </nav>`;
-  const conditionLinks = `<p><a href="/conditions/back-pain-treatment">Մեջքի ցավ</a> · <a href="/conditions/neck-pain-treatment">Պարանոցի ցավ</a> · <a href="/conditions/sciatica">Իշիաս</a> · <a href="/conditions/herniated-disc">Սկավառակի ճողվածք</a> · <a href="/conditions/lower-back-pain">Գոտկային ցավ</a> · <a href="/conditions/leg-numbness">Ոտքի թմրածություն</a> · <a href="/conditions/shoulder-pain">Ուսային ցավ</a> · <a href="/conditions/osteochondrosis">Օստեոխոնդրոզ</a> · <a href="/conditions/posture-disorders">Կեցվածքի խանգարումներ</a> · <a href="/conditions">Բոլոր ախտորոշումները</a></p>`;
+  const navLinks = ui.nav.map(([href, label]) => `<a href="${href}">${esc(label)}</a>`).join(' ·\n      ');
+  const nav = `<nav class="seo-crawl-nav" aria-label="${esc(ui.navAria)}">${navLinks}</nav>`;
+  const email = h.email || 'info@healthyspine.am';
+  const address = localizedClinicAddress(h, lang);
+  const displayName = localizedClinicName(h, lang);
+  const aboutText = localizedClinicAbout(h, lang, ui);
   return `<section class="seo-crawl-content" id="seo-crawl-content">
-    <h2>${esc(h.name || 'Առողջ ողնաշար')}</h2>
-    <p>${esc(h.about || h.mission || '«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն Երևանում։')}</p>
-    ${h.mission ? `<p>${esc(h.mission)}</p>` : ''}
-    ${conditionItems ? `<h3>Բուժվող վիճակներ</h3><ul>${conditionItems}</ul>` : ''}
-    ${conditionLinks}
-    <p><a href="/knowledge">Գիտելիքների կենտրոն</a> · <a href="/knowledge/back-pain-causes">Մեջքի ցավի պատճառներ</a> · <a href="/knowledge/sciatica-symptoms">Իշիասի ախտանիշներ</a> · <a href="/knowledge/herniated-disc-symptoms">Սկավառակի ախտանիշներ</a> · <a href="/knowledge/lower-back-pain-causes">Գոտկային ցավի պատճառներ</a></p>
-    <p><a href="/consultation-process">Խորհրդատվության գործընթաց</a> · <a href="/spine-specialist-yerevan">Ողնաշարի մասնագետ Երևանում</a> · <a href="/about-doctor">Բժշկի մասին</a> · <a href="/editorial-policy">Խմբագրական քաղաքականություն</a> · <a href="/spine-health-resources">Ռեսուրսներ</a></p>
-    <p><strong>Հեռախոս.</strong> <a href="tel:${(h.phone || '').replace(/[^+\d]/g, '')}" class="hss-tel">${esc(h.phone || '')}</a> · <strong>Էլ. փոստ.</strong> <a href="mailto:${esc(h.email || '')}">${esc(h.email || '')}</a> · <strong>Հասցե.</strong> <a href="https://maps.google.com/?q=${encodeURIComponent(h.mapsQuery || h.address || '')}" target="_blank" rel="noopener">${esc(h.address || 'Երևան, Հայաստան')}</a></p>
-    <p style="margin-top:0.5em"><a href="/consultation-process" class="hss-link hss-cta-link">→ Գրանցվել խորհրդատվության</a></p>
+    <h2>${esc(displayName)}</h2>
+    <p>${esc(aboutText)}</p>
+    ${lang === 'hy' && h.mission && h.about ? `<p>${esc(h.mission)}</p>` : ''}
+    ${conditionItems ? `<h3>${esc(ui.conditionsH)}</h3><ul>${conditionItems}</ul>` : ''}
+    ${ui.extraLinks}
+    <p><strong>${esc(ui.phone)}</strong> <a href="tel:${(h.phone || '').replace(/[^+\d]/g, '')}" class="hss-tel">${esc(h.phone || '')}</a> · <strong>${esc(ui.email)}</strong> <a href="mailto:${esc(email)}">${esc(email)}</a> · <strong>${esc(ui.address)}</strong> <a href="https://maps.google.com/?q=${encodeURIComponent(h.mapsQuery || address)}" target="_blank" rel="noopener">${esc(address)}</a></p>
+    <p style="margin-top:0.5em"><a href="/consultation-process" class="hss-link hss-cta-link">${esc(ui.cta)}</a></p>
     ${nav}
   </section>`;
 }
 
-function resolveRouteMeta(route, data) {
-  if (typeof route.resolveMeta === 'function') return route.resolveMeta(data);
+function resolveRouteMeta(route, data, lang = 'hy') {
+  if (typeof route.resolveMeta === 'function') return route.resolveMeta(data, lang);
   return {
     title: route.title,
     description: route.description,
@@ -74,22 +165,20 @@ const ROUTES = {
   '/': {
     file: 'index.html',
     pageKey: 'home',
-    resolveMeta: (data) => {
+    resolveMeta: (data, lang = 'hy') => {
+      lang = normalizeLang(lang);
+      const dict = loadLangDict(lang);
+      const home = dict.pages?.home || {};
       const h = data?.hospital || {};
-      const name = h.name || 'Առողջ ողնաշար';
+      const name = h.name || (lang === 'ru' ? 'Здоровый позвоночник' : lang === 'en' ? 'Healthy Spine' : 'Առողջ ողնաշար');
       return {
-        title: `${name} — Վերականգնողական կենտրոն`,
-        description:
-          h.heroTagline ||
-          '«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն Երևանում։ Մանուալ թերապիա, ֆիզիոթերապիա, օստեոպաթիա և այլ ծառայություններ։',
+        title: home.title || `${name} — ${lang === 'ru' ? 'Реабилитационный центр' : lang === 'en' ? 'Rehabilitation Center' : 'Վերականգնողական կենտրոն'}`,
+        description: dict.meta?.siteDescription || h.heroTagline || h.about || '',
         h1: name,
-        tagline:
-          h.heroTagline ||
-          h.tagline ||
-          'Պոզանոցի, հոդերի և շարժական համակարգի հիվանդությունների բուժում'
+        tagline: home.heroSubtitle || h.heroTagline || h.tagline || ''
       };
     },
-    bodyHtml: (data) => homeCrawlBlock(data),
+    bodyHtml: (data, lang) => homeCrawlBlock(data, lang),
     jsonLd: (data, url) => [clinicNode(data), breadcrumb(url, 'Գլխավոր')]
   },
   '/find-a-doctor': {
@@ -97,9 +186,9 @@ const ROUTES = {
     pageKey: 'doctors',
     title: 'Գտնել բժիշկ — Առողջ ողնաշար',
     description:
-      'Գտեք պոզանոցի, հոդերի և վերականգնողական մասնագետներ «Առողջ ողնաշար» կենտրոնում։ Որոնեք ըստ մասնագիտության և գրանցվեք առցանց։',
+      'Գտեք ողնաշարի, հոդերի և վերականգնողական մասնագետներ «Առողջ ողնաշար» կենտրոնում։ Որոնեք ըստ մասնագիտության և գրանցվեք առցանց։',
     h1: 'Գտնել բժիշկ',
-    tagline: 'Մասնագետներ պոզանոցի, հոդերի և շարժական համակարգի վերականգնման ոլորտում։',
+    tagline: 'Մասնագետներ ողնաշարի, հոդերի և հենաշարժական համակարգի վերականգնման ոլորտում։',
     bodyHtml: (data) => {
       const items = (data.doctors || [])
         .slice(0, 24)
@@ -118,7 +207,7 @@ const ROUTES = {
         name: 'Գտնել բժիշկ',
         url,
         description:
-          'Գտեք պոզանոցի, հոդերի և վերականգնողական մասնագետներ «Առողջ ողնաշար» կենտրոնում։',
+          'Գտեք ողնաշարի, հոդերի և վերականգնողական մասնագետներ «Առողջ ողնաշար» կենտրոնում։',
         isPartOf: { '@type': 'WebSite', name: clinicName(data), url: `${BASE}/` }
       }
     ]
@@ -128,9 +217,9 @@ const ROUTES = {
     pageKey: 'departments',
     title: 'Բուժում և ծառայություններ — Առողջ ողնաշար',
     description:
-      'Պոզանոցի, հոդերի և շարժական համակարգի վերականգնողական ծառայություններ «Առողջ ողնաշար» կենտրոնում — ֆիզիոթերապիա, ախտորոշում և վերականգնման ծրագրեր։',
+      'Ողնաշարի, հոդերի և հենաշարժական համակարգի վերականգնողական ծառայություններ «Առողջ ողնաշար» կենտրոնում — ֆիզիոթերապիա, ախտորոշում և վերականգնման ծրագրեր։',
     h1: 'Բուժում և ծառայություններ',
-    tagline: 'Պոզանոցի և հոդերի համապարփակ վերականգնողական և բուժման ծրագրեր։',
+    tagline: 'Ողնաշարի և հոդերի համապարփակ վերականգնողական և բուժման ծրագրեր։',
     bodyHtml: (data) => {
       const launched = getLaunchedServiceSlugs();
       const items = (data.departments || [])
@@ -143,7 +232,7 @@ const ROUTES = {
         })
         .join('');
       return `<section class="seo-crawl-content" id="seo-crawl-content">
-        <p><a href="/services">Ծառայությունների հիմնական էջ</a> — պոզանոցի և հոդերի վերականգնողական ծառայություններ Երևանում։</p>
+        <p><a href="/services">Ծառայությունների հիմնական էջ</a> — ողնաշարի և հոդերի վերականգնողական ծառայություններ Երևանում։</p>
         <h2>Ծառայություններ և ծրագրեր</h2><ul>${items}</ul></section>`;
     },
     jsonLd: (data, url) => {
@@ -164,7 +253,7 @@ const ROUTES = {
     pageKey: 'about',
     title: 'Մեր մասին — Առողջ ողնաշար',
     description:
-      '«Առողջ ողնաշար» վերականգնողական կենտրոնի մասին — առաքելություն, թիմ, արժեքներ և ապացուցված պոզանոցի և հոդերի խնամք։',
+      '«Առողջ ողնաշար» վերականգնողական կենտրոնի մասին — առաքելություն, թիմ, արժեքներ և ապացուցված ողնաշարի և հոդերի խնամք։',
     h1: 'Մեր մասին',
     tagline: 'Կենտրոնի պատմություն, առաքելություն և արժեքներ։',
     bodyHtml: (data) => {
@@ -315,7 +404,14 @@ function fillI18nPlaceholders(html, lang = 'hy') {
       return val ? `${open}${esc(val)}${close}` : `${open}${close}`;
     }
   );
-  out = out.replace(/(<a href="\/contact" class="hss-link">)—(<\/a>)/g, '$1Կապ$2');
+  out = out.replace(/(<a href="\/contact" class="hss-link"[^>]*data-i18n="nav\.contacts"[^>]*>)—(<\/a>)/g, (_m, open, close) => {
+    const val = dictPath(dict, 'nav.contacts');
+    return val ? `${open}${esc(val)}${close}` : `${open}${close}`;
+  });
+  out = out.replace(/(<a href="\/contact" class="hss-link">)—(<\/a>)/g, (_m, open, close) => {
+    const val = dictPath(dict, 'nav.contacts') || (lang === 'ru' ? 'Контакты' : lang === 'en' ? 'Contact' : 'Կապ');
+    return `${open}${esc(val)}${close}`;
+  });
   return out;
 }
 
@@ -394,14 +490,15 @@ function injectContactFields(html, data) {
   return out;
 }
 
-function serveSeoPage(routePath) {
+function serveSeoPage(routePath, lang = 'hy') {
+  lang = normalizeLang(lang);
   const route = ROUTES[routePath];
   if (!route) return null;
 
   const filePath = path.join(SITE_ROOT, route.file);
   if (!fs.existsSync(filePath)) return null;
 
-  const data = buildPublicContent('hy');
+  const data = buildPublicContent(lang);
   let html = fs.readFileSync(filePath, 'utf8');
   const url = `${BASE}${routePath}`;
 
@@ -413,15 +510,17 @@ function serveSeoPage(routePath) {
   html = html.replace(/<meta name="twitter:[^"]+"[^>]*>/gi, '');
   html = html.replace(/<script type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/gi, '');
 
-  const meta = resolveRouteMeta(route, data);
+  const meta = resolveRouteMeta(route, data, lang);
   const tags = headTags(meta, routePath);
   html = html.replace('</head>', `${tags}\n${injectJsonLdScript(route.jsonLd(data, url))}\n</head>`);
+
+  html = html.replace(/<html lang="[^"]*">/, `<html lang="${lang}">`);
 
   html = replaceFirstHeroText(html, meta);
 
   if (route.pageKey === 'home') {
     html = injectHomeHero(html, meta);
-    html = fillI18nPlaceholders(html, 'hy');
+    html = fillI18nPlaceholders(html, lang);
     html = stripHomeDynamicPlaceholders(html);
     const phoneDigits = String(data?.hospital?.phone || '').replace(/\D/g, '');
     if (phoneDigits) {
@@ -433,7 +532,7 @@ function serveSeoPage(routePath) {
     html = injectContactFields(html, data);
   }
 
-  const body = route.bodyHtml(data);
+  const body = route.bodyHtml ? route.bodyHtml(data, lang) : '';
   if (body) {
     const dock = wrapSeoDock(body);
     if (html.includes('id="seo-crawl-slot"')) {

@@ -1,6 +1,6 @@
 /**
- * P0T.4 — Strip ?lang= query parameter via 301 to canonical URL.
- * Canonical public pages are Armenian-only; lang params caused mixed-language output.
+ * Locale query passthrough — ?lang=hy|ru|en is honored by SSR (seo-pages) and client i18n.
+ * Previously stripped via 301; removed so RU/EN homepage SEO blocks render in the correct language.
  */
 const LANG_CODES = new Set(['hy', 'ru', 'en']);
 
@@ -23,10 +23,8 @@ function stripLangQuery(req) {
   return qs ? `${req.path}?${qs}` : req.path || '/';
 }
 
-function localeRedirectMiddleware(req, res, next) {
-  const target = stripLangQuery(req);
-  if (target == null) return next();
-  return res.redirect(301, target);
+function localeRedirectMiddleware(_req, _res, next) {
+  return next();
 }
 
 module.exports = { localeRedirectMiddleware, stripLangQuery };

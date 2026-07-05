@@ -9,7 +9,7 @@ const router = express.Router();
 
 Object.keys(ROUTES).forEach((routePath) => {
   router.get(routePath, (req, res) => {
-    const html = serveSeoPage(routePath);
+    const html = serveSeoPage(routePath, req.query.lang);
     if (!html) return res.status(404).send('Not found');
     res.setHeader('Cache-Control', 'public, max-age=300');
     res.type('html').send(html);

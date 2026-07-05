@@ -9,7 +9,7 @@
     "doctors": "Find a Doctor",
     "departments": "Services",
     "appointment": "Book",
-    "contacts": "Contacts",
+    "contacts": "Contact",
     "menuAria": "Menu",
     "langAria": "Language selection",
     "locations": "Locations",
@@ -157,7 +157,7 @@
       "storiesViewAll": "View All Patient Stories",
       "footerCta": "Make an Appointment",
       "rankingsLink": "See our achievements",
-      "complexCasesDetail": "Our multidisciplinary care center delivers treatment based on the latest research, proven practices and cutting-edge techniques.",
+      "complexCasesDetail": "Our multidisciplinary team may support care based on evidence-based practices and individual assessment; this information does not replace medical advice and results may vary.",
       "newsShowMore": "Show more",
       "newsShowLess": "Show less",
       "searchTitle": "Find a doctor and book an appointment online",
@@ -925,12 +925,12 @@
       "Care plans are based on individual assessment and rehabilitation goals."
     ],
     "approachParagraphs": [
-      "Our specialists help patients avoid unnecessary procedures. We use modern nonsurgical methods to treat orthopedic and neurological conditions.",
+      "Our specialists may help patients avoid unnecessary procedures after assessment. We use conservative methods to treat orthopedic and neurological conditions as part of an individual plan.",
       "Our team includes experts in orthopedics, neurology, physiotherapy, manual therapy, therapeutic exercise and rehabilitation — all focused on spine and neck care.",
-      "From diagnosis to recovery, every team member has extensive experience treating your condition. We offer a range of therapies to relieve pain, prevent further damage and restore mobility — often without surgery."
+      "From diagnosis to recovery, each team member has experience with your condition. We offer therapies that may help relieve pain, support mobility and recovery — often without surgery; this information does not replace medical advice."
     ],
     "expertsParagraphs": [
-      "Our specialists are physicians with years of experience in spine and joint care. They use minimally invasive and conservative methods for less pain, faster recovery and fewer complications.",
+      "Our specialists are physicians with experience in spine and joint care. They use conservative methods that may support recovery after specialist assessment; results may vary.",
       "For convenient access, our specialists see patients at Healthy Spine — you can book online or by phone."
     ],
     "imagingParagraphs": [
@@ -938,7 +938,7 @@
     ],
     "feature": {
       "title": "Innovation in spine rehabilitation",
-      "description": "Modern physiotherapy, manual therapy and therapeutic exercise deliver personalized recovery — often without surgery.",
+      "description": "Modern physiotherapy, manual therapy and therapeutic exercise may support an individual recovery plan after specialist assessment; results may vary.",
       "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80"
     },
     "news": [
