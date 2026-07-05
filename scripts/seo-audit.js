@@ -8,6 +8,7 @@ const http = require('http');
 const { URL } = require('url');
 const { getLaunchedServiceSlugs } = require('../server/services/service-pages');
 const { getLaunchedKnowledgeSlugs } = require('../server/services/knowledge-pages');
+const { LAUNCHED_AUTHORITY_SLUGS } = require('../server/services/local-authority-pages');
 
 const BASE = (process.env.SEO_AUDIT_BASE || 'https://healthyspinedoc.com').replace(/\/$/, '');
 const FAILURES = [];
@@ -43,12 +44,18 @@ const LAUNCHED_KNOWLEDGE_URLS = getLaunchedKnowledgeSlugs().map((slug) => ({
   label: slug.replace(/-/g, ' ')
 }));
 
+const LAUNCHED_AUTHORITY_URLS = LAUNCHED_AUTHORITY_SLUGS.map((routePath) => ({
+  path: routePath,
+  label: routePath.replace(/^\//, '').replace(/-/g, ' ')
+}));
+
 /** Pages audited for 200/canonical/metadata (includes /conditions hub). */
 const ALL_INDEXABLE_URLS = [
   ...CORE_URLS,
   ...LAUNCHED_SERVICE_URLS,
   ...LAUNCHED_CONDITION_URLS,
-  ...LAUNCHED_KNOWLEDGE_URLS
+  ...LAUNCHED_KNOWLEDGE_URLS,
+  ...LAUNCHED_AUTHORITY_URLS
 ];
 
 /** URLs expected in sitemap.xml (/conditions hub excluded per P3.3G). */
@@ -56,7 +63,8 @@ const SITEMAP_URLS = [
   ...CORE_URLS.filter((u) => u.path !== '/conditions'),
   ...LAUNCHED_SERVICE_URLS,
   ...LAUNCHED_CONDITION_URLS,
-  ...LAUNCHED_KNOWLEDGE_URLS
+  ...LAUNCHED_KNOWLEDGE_URLS,
+  ...LAUNCHED_AUTHORITY_URLS
 ];
 
 function fetchUrl(url, { method = 'GET', follow = 5 } = {}) {
@@ -410,6 +418,13 @@ async function auditPage({ path, label }, homepageSnapshot) {
 
 const ENTITY_SCHEMA_PAGES = ['/', '/contact', '/locations', '/find-a-doctor', '/services/manual-therapy'];
 
+function visibleBodyWithoutJsonLd(html) {
+  return String(html).replace(
+    /<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi,
+    ''
+  );
+}
+
 function auditEntitySchemaFields(path, body) {
   if (!ENTITY_SCHEMA_PAGES.includes(path)) return;
 
@@ -443,7 +458,8 @@ function auditEntitySchemaFields(path, body) {
     pass(`${path} has no placeholder phone`);
   }
 
-  if (/info@healthyspine\.am/i.test(body)) {
+  const visible = visibleBodyWithoutJsonLd(body);
+  if (/info@healthyspine\.am/i.test(visible)) {
     fail(`${path} contains placeholder email info@healthyspine.am`);
   } else {
     pass(`${path} has no placeholder email`);
