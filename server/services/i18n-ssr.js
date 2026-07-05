@@ -38,7 +38,22 @@ const UI = {
       'Այս էջը տեղեկատվական է և չի փոխարինում բժշկական խորհրդատվությանը։ Արդյունքները կարող են տարբեր լինել։',
     hubIntro:
       'Կենտրոնը կարող է առաջարկել կոնսերվատիվ գնահատում և վերականգնողական ծրագրեր՝ մասնագետի գնահատումից հետո։',
-    yerevan: 'Երևան'
+    yerevan: 'Երևան',
+    emergencyTitle: 'Երբ դիմել շտապ բժշկական օգնության',
+    editorialTrust:
+      'Բովանդակությունը պատրաստված է «Առողջ ողնաշար» խմբագրական թիմի կողմից և վերանայվում է պարզության և հիվանդների անվտանգության համար։',
+    infoVerified: 'Տվյալները ճշտվում են',
+    education: 'Կրթություն',
+    experience: 'Փորձ',
+    languages: 'Լեզուներ',
+    specialties: 'Մասնագիտացում',
+    consultFor: 'Ինչի համար կարող եք դիմել',
+    viewProfile: 'Դիտել պրոֆիլը',
+    findDoctors: 'Գտնել մասնագետ',
+    relatedConditions: 'Կապված ախտորոշումներ',
+    whenNotSuitable: 'Երբ ծառայությունը կարող է հարմար չլինել',
+    howVisitWorks: 'Ինչպես է սովորաբար ընթանում այցը',
+    updatedLabel: 'Թարմացվել է'
   },
   ru: {
     home: 'Главная',
@@ -67,7 +82,22 @@ const UI = {
       'Эта страница носит информационный характер и не заменяет консультацию врача. Результаты могут отличаться.',
     hubIntro:
       'Центр может предложить консервативную оценку и реабилитационные программы после оценки специалиста.',
-    yerevan: 'Ереван'
+    yerevan: 'Ереван',
+    emergencyTitle: 'Когда обращаться за неотложной помощью',
+    editorialTrust:
+      'Материалы подготовлены редакционной командой «Здоровый позвоночник» и проверяются на ясность и безопасность для пациентов.',
+    infoVerified: 'Информация уточняется',
+    education: 'Образование',
+    experience: 'Опыт',
+    languages: 'Языки',
+    specialties: 'Специализация',
+    consultFor: 'По каким вопросам можно обратиться',
+    viewProfile: 'Открыть профиль',
+    findDoctors: 'Найти специалиста',
+    relatedConditions: 'Связанные диагнозы',
+    whenNotSuitable: 'Когда услуга может быть неподходящей',
+    howVisitWorks: 'Как обычно проходит визит',
+    updatedLabel: 'Обновлено'
   },
   en: {
     home: 'Home',
@@ -96,8 +126,29 @@ const UI = {
       'This page is for information only and does not replace medical advice. Results may vary.',
     hubIntro:
       'The center may offer conservative assessment and rehabilitation programs after specialist evaluation.',
-    yerevan: 'Yerevan'
+    yerevan: 'Yerevan',
+    emergencyTitle: 'When to seek urgent medical care',
+    editorialTrust:
+      'Content is prepared by the Healthy Spine editorial team and reviewed for clarity and patient safety.',
+    infoVerified: 'Information is being verified',
+    education: 'Education',
+    experience: 'Experience',
+    languages: 'Languages',
+    specialties: 'Specialties',
+    consultFor: 'What you can consult about',
+    viewProfile: 'View profile',
+    findDoctors: 'Find a specialist',
+    relatedConditions: 'Related conditions',
+    whenNotSuitable: 'When the service may not be suitable',
+    howVisitWorks: 'How a visit usually works',
+    updatedLabel: 'Updated'
   }
+};
+
+const EMERGENCY_TEXT = {
+  hy: 'Ուժեղ կամ արագ վատթարացող ցավի, թուլության, միզապարկի կամ աղիքների վերահսկման խանգարման, վնասվածքի կամ ջերմության դեպքում դիմեք շտապ բժշկական օգնության։',
+  ru: 'При сильной или быстро усиливающейся боли, слабости, нарушении контроля мочевого пузыря или кишечника, травме или температуре обратитесь за неотложной медицинской помощью.',
+  en: 'Seek urgent medical care for severe or rapidly worsening pain, weakness, bladder or bowel control problems, injury, or fever.'
 };
 
 let dictCache = {};
@@ -231,6 +282,39 @@ function contactBlockHtml(data, lang, variant = 'contact') {
   </section>`;
 }
 
+function emergencyRedFlagBlock(lang = 'hy') {
+  lang = normalizeLang(lang);
+  const u = ui(lang);
+  return `<section class="seo-service-section hss-emergency-note">
+    <h2>${esc(u.emergencyTitle)}</h2>
+    <div class="hss-prose"><p>${esc(EMERGENCY_TEXT[lang] || EMERGENCY_TEXT.hy)}</p></div>
+  </section>`;
+}
+
+function editorialTrustBlock(lang = 'hy') {
+  const u = ui(normalizeLang(lang));
+  return `<aside class="hss-editorial-trust"><p><em>${esc(u.editorialTrust)}</em></p></aside>`;
+}
+
+function safetyNoteBlock(lang = 'hy') {
+  const u = ui(normalizeLang(lang));
+  const h2 =
+    lang === 'ru' ? 'Важное примечание' : lang === 'en' ? 'Important note' : 'Կարևոր նշում';
+  return `<section class="seo-service-section">
+    <h2>${esc(h2)}</h2>
+    <div class="hss-prose"><p>${esc(u.disclaimer)}</p></div>
+  </section>`;
+}
+
+function ctaBlockHtml(lang = 'hy') {
+  const u = ui(normalizeLang(lang));
+  return `<nav class="seo-service-cta" aria-label="Next steps">
+    <p><a href="/contact" class="hss-btn hss-btn--primary">${esc(u.bookAppointment)}</a>
+    <a href="/consultation-process" class="hss-btn hss-btn--outline">${esc(u.consultation)}</a>
+    <a href="/find-a-doctor" class="hss-link">${esc(u.findDoctors)}</a></p>
+  </nav>`;
+}
+
 function resetDictCache() {
   dictCache = {};
 }
@@ -253,5 +337,10 @@ module.exports = {
   applyHtmlLang,
   localizedAddress,
   contactBlockHtml,
+  emergencyRedFlagBlock,
+  editorialTrustBlock,
+  safetyNoteBlock,
+  ctaBlockHtml,
+  EMERGENCY_TEXT,
   resetDictCache
 };
