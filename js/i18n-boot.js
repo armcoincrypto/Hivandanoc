@@ -6,7 +6,6 @@
   const STORAGE_KEY = 'gkb_lang';
 
   function resolveLang() {
-    if (typeof LocalePolicy !== 'undefined' && LocalePolicy.isCanonicalSeoPage()) return 'hy';
     let lang = 'hy';
     try {
       const saved = localStorage.getItem(STORAGE_KEY);

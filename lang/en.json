@@ -91,7 +91,8 @@
     "legalAddress": "Address",
     "legalDisclaimer": "All rights reserved. Site content does not replace medical advice.",
     "mapTitle": "Our location",
-    "mapDirections": "Open in Google Maps"
+    "mapDirections": "Open in Google Maps",
+    "developedBy": "Developed By"
   },
   "pages": {
     "home": {
@@ -940,9 +941,25 @@
       "description": "Modern physiotherapy, manual therapy and therapeutic exercise deliver personalized recovery — often without surgery.",
       "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80"
     },
-    "news": [],
-    "storyVideos": [],
-    "patientStories": [],
+    "news": [
+      { "id": "n1", "title": "Healthy Spine center unveils new rehabilitation programs", "category": "Center news" },
+      { "id": "n2", "title": "Renovated physiotherapy room opens", "category": "Equipment" },
+      { "id": "n3", "title": "Physician seminar: conservative treatment of disc herniation", "category": "Education" }
+    ],
+    "storyVideos": [
+      { "id": "sv1", "title": "How I returned to an active life: osteochondrosis treatment story" },
+      { "id": "sv2", "title": "Recovery after a back injury: a patient story" },
+      { "id": "sv3", "title": "Scoliosis treatment without surgery: a success story" },
+      { "id": "sv4", "title": "How I got rid of neck pain: a rehabilitation story" }
+    ],
+    "patientStories": [
+      { "id": "ps1", "name": "Mariam K.", "location": "Yerevan", "treatment": "Osteochondrosis treatment" },
+      { "id": "ps2", "name": "Alexey S.", "location": "Gyumri", "treatment": "Sports rehabilitation" },
+      { "id": "ps3", "name": "Anna M.", "location": "Yerevan", "treatment": "Scoliosis correction" },
+      { "id": "ps4", "name": "Victor P.", "location": "Vanadzor", "treatment": "Hernia treatment" },
+      { "id": "ps5", "name": "Nora B.", "location": "Yerevan", "treatment": "Manual therapy" },
+      { "id": "ps6", "name": "Garik T.", "location": "Abovyan", "treatment": "Post-injury rehabilitation" }
+    ],
     "moveBetter": {
       "featured": {
         "id": "feat1",

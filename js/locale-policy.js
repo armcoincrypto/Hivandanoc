@@ -1,5 +1,5 @@
 /**
- * P0T.4 — Shared locale policy for public SEO routes (Armenian-only).
+ * SEO locale hints — canonical URLs stay Armenian; UI language is user-controlled (HY/RU/EN).
  */
 (function (root) {
   const CANONICAL_PREFIXES = [
@@ -24,10 +24,8 @@
     return CANONICAL_PREFIXES.some((prefix) => p === prefix || p.startsWith(`${prefix}/`));
   }
 
+  /** Used for SEO/hreflang only — does not block language switcher. */
   function isCanonicalSeoPage() {
-    if (typeof document !== 'undefined' && document.body?.hasAttribute('data-seo-canonical')) {
-      return true;
-    }
     if (typeof location !== 'undefined') return isCanonicalSeoPath(location.pathname);
     return false;
   }
