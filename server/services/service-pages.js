@@ -126,8 +126,11 @@ const {
   breadcrumbNavHtml,
   jsonLdBreadcrumb,
   applyHtmlLang,
-  localizedAddress
+  localizedAddress,
+  emergencyRedFlagBlock,
+  editorialTrustBlock
 } = require('./i18n-ssr');
+const { getConditionConfig } = require('./condition-pages');
 
 function localizeData(data, lang) {
   lang = normalizeLang(lang);
@@ -210,6 +213,32 @@ function serviceCarePathParagraph(service, lang = 'hy') {
   return 'Բուժման ուղին սկսվում է մասնագետի հետ խորհրդատվությունից և կարող է ներառել մի քանի փուլ՝ գնահատում, բուժման պլան և հսկողություն։';
 }
 
+function serviceConditionLinksHtml(service, lang = 'hy') {
+  const u = ui(lang);
+  const slugs = SERVICE_CONDITION_LINKS[service.id] || [];
+  if (!slugs.length) return '';
+  const items = slugs
+    .map((id) => {
+      const c = getConditionConfig(id, lang);
+      if (!c) return '';
+      return `<li><a href="/conditions/${esc(id)}">${esc(c.h1)}</a></li>`;
+    })
+    .join('');
+  return `<section class="seo-service-section"><h2>${esc(u.relatedConditions)}</h2><ul class="hss-list">${items}</ul></section>`;
+}
+
+function serviceWhenNotSuitable(lang = 'hy') {
+  lang = normalizeLang(lang);
+  const u = ui(lang);
+  const text =
+    lang === 'ru'
+      ? 'Услуга может быть неподходящей при острых инфекциях, нестабильных состояниях, противопоказаниях по результатам обследования или без предварительной оценки специалиста. Решение принимается индивидуально.'
+      : lang === 'en'
+        ? 'The service may not be suitable during acute infection, unstable conditions, contraindications on imaging, or without prior specialist assessment. Decisions are made individually.'
+        : 'Ծառայությունը կարող է հարմար չլինել սուր վարակային, անկայուն վիճակների, հետազոտություններով հաստատված противопоказаний կամ առանց նախնական մասնագետի գնահատման դեպքում։';
+  return `<section class="seo-service-section"><h2>${esc(u.whenNotSuitable)}</h2><div class="hss-prose"><p>${esc(text)}</p></div></section>`;
+}
+
 function serviceBodyHtml(data, service, lang = 'hy') {
   lang = normalizeLang(lang);
   const u = ui(lang);
@@ -239,9 +268,13 @@ function serviceBodyHtml(data, service, lang = 'hy') {
     <div class="hss-prose"><p>${intro}</p><p>${esc(serviceAudienceParagraph(service, lang))}</p></div>
     <section class="seo-service-section"><h2>${esc(includesH)}</h2>${itemList || `<p>${esc(service.description || '')}</p>`}</section>
     <section class="seo-service-section"><h2>${lang === 'ru' ? 'Как проходит услуга' : lang === 'en' ? 'What to expect' : 'Ինչ սպասել'}</h2><div class="hss-prose"><p>${esc(serviceExpectParagraph(service, lang))}</p><p>${esc(serviceCarePathParagraph(service, lang))}</p></div></section>
+    ${serviceConditionLinksHtml(service, lang)}
     ${relatedHtml}
+    ${serviceWhenNotSuitable(lang)}
+    ${editorialTrustBlock(lang)}
     ${safetyNote(lang)}
-    <p><a href="/services" class="hss-link">← ${esc(u.allServices)}</a></p>
+    ${emergencyRedFlagBlock(lang)}
+    <p><a href="/find-a-doctor" class="hss-link">${esc(u.findDoctors)}</a> · <a href="/services" class="hss-link">← ${esc(u.allServices)}</a></p>
     ${ctaBlock(lang)}
   </article>`;
 }

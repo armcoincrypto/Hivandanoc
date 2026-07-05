@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { buildPublicContent } = require('../db/helpers');
-const { clinicNode, clinicName } = require('./entity-schema');
+const { clinicNode, clinicName, medicalConditionNode } = require('./entity-schema');
 const { getKnowledgeLinksForCondition, KNOWLEDGE_CONFIG } = require('./knowledge-pages');
 const { normalizeRootAssetPaths } = require('./html-utils');
 
@@ -411,7 +411,9 @@ const {
   jsonLdBreadcrumb,
   applyHtmlLang,
   pageMetaFromDict,
-  localizedAddress
+  localizedAddress,
+  emergencyRedFlagBlock,
+  editorialTrustBlock
 } = require('./i18n-ssr');
 
 function localizeData(data, lang) {
@@ -549,8 +551,10 @@ function conditionBodyHtml(data, slug, config, lang = 'hy') {
       <div class="hss-prose"><p>${esc(clinicP)}</p>
       <p><strong>${esc(u.address)}</strong> ${esc(addr)} · <strong>${esc(u.phone)}</strong> ${esc(h.phone || '')}</p></div>
     </section>
+    ${editorialTrustBlock(lang)}
+    ${emergencyRedFlagBlock(lang)}
     ${safetyNote(lang)}
-    <p><a href="/conditions" class="hss-link">← ${esc(u.conditions)}</a></p>
+    <p><a href="/find-a-doctor" class="hss-link">${esc(u.findDoctors)}</a> · <a href="/conditions" class="hss-link">← ${esc(u.conditions)}</a></p>
     ${ctaBlock(lang)}
   </article>`;
 }
@@ -565,8 +569,10 @@ function conditionJsonLd(data, config, url, lang = 'hy') {
       url,
       description: config.description,
       isPartOf: { '@type': 'WebSite', name: clinicDisplayName(data, lang), url: `${BASE}/` },
-      publisher: clinicNode(data)
+      publisher: clinicNode(data),
+      about: medicalConditionNode(config, url)
     },
+    medicalConditionNode(config, url),
     clinicNode(data),
     jsonLdBreadcrumb(BASE, lang, { name: u.conditions, item: `${BASE}/conditions` }, { name: config.h1, item: url })
   ];
@@ -709,5 +715,6 @@ module.exports = {
   CONDITION_CONFIG,
   serveConditionsHub,
   serveConditionPage,
-  getLaunchedConditionSlugs
+  getLaunchedConditionSlugs,
+  getConditionConfig
 };
