@@ -10,3 +10,7 @@ data/cms/
 data/cms.db
 data/*.db
 *.log
+
+# Intentional local-only (see docs/WIP_FREEZE_CLASSIFICATION.md)
+README.md
+docs/technical-seo-audit.md
