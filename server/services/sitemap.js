@@ -4,6 +4,7 @@ const { getLaunchedServiceSlugs } = require('./service-pages');
 const { getLaunchedConditionSlugs } = require('./condition-pages');
 const { getLaunchedKnowledgeSlugs } = require('./knowledge-pages');
 const { LAUNCHED_AUTHORITY_SLUGS } = require('./local-authority-pages');
+const { buildPublicContent } = require('../db/helpers');
 
 const SITE_ROOT = path.join(__dirname, '../..');
 
@@ -99,6 +100,22 @@ function buildSitemapEntries() {
       changefreq: 'monthly',
       priority: '0.85'
     });
+  }
+
+  try {
+    const doctors = buildPublicContent('hy').doctors || [];
+    for (const d of doctors) {
+      const slug = d.slug || d.id;
+      if (!slug) continue;
+      entries.push({
+        loc: `${base}/doctors/${slug}`,
+        lastmod: today,
+        changefreq: 'monthly',
+        priority: '0.86'
+      });
+    }
+  } catch {
+    /* keep sitemap without doctor profiles if CMS unavailable */
   }
 
   return entries;

@@ -199,8 +199,10 @@ const ROUTES = {
       const items = (data.doctors || [])
         .slice(0, 24)
         .map(
-          (d) =>
-            `<li><strong>${esc(d.name)}</strong> — ${esc(d.role || '')}${d.location ? ` (${esc(d.location)})` : ''}</li>`
+          (d) => {
+            const slug = d.slug || d.id;
+            return `<li><a href="/doctors/${esc(slug)}"><strong>${esc(d.name)}</strong></a> — ${esc(d.role || '')}${d.location ? ` (${esc(d.location)})` : ''}</li>`;
+          }
         )
         .join('');
       return `<section class="seo-crawl-content" id="seo-crawl-content"><h2>${esc(u.ourDoctors)}</h2><ul>${items}</ul></section>`;

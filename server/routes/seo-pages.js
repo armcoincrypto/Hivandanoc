@@ -4,6 +4,7 @@ const { serveServicesHub, serveServicePage } = require('../services/service-page
 const { serveConditionsHub, serveConditionPage } = require('../services/condition-pages');
 const { serveKnowledgeHub, serveKnowledgeArticle } = require('../services/knowledge-pages');
 const { LAUNCHED_AUTHORITY_SLUGS, servePage } = require('../services/local-authority-pages');
+const { serveDoctorPage } = require('../services/doctor-pages');
 const { normalizeLang } = require('../services/i18n-ssr');
 
 const router = express.Router();
@@ -63,6 +64,13 @@ router.get('/knowledge', (req, res) => {
 
 router.get('/knowledge/:slug', (req, res) => {
   const html = serveKnowledgeArticle(req.params.slug, req.query.lang);
+  if (!html) return res.status(404).send('Not found');
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.type('html').send(html);
+});
+
+router.get('/doctors/:slug', (req, res) => {
+  const html = serveDoctorPage(req.params.slug, req.query.lang);
   if (!html) return res.status(404).send('Not found');
   res.setHeader('Cache-Control', 'public, max-age=300');
   res.type('html').send(html);
