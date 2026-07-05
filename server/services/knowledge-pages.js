@@ -218,7 +218,9 @@ const {
   clinicDisplayName,
   breadcrumbNavHtml,
   jsonLdBreadcrumb,
-  applyHtmlLang
+  applyHtmlLang,
+  emergencyRedFlagBlock,
+  editorialTrustBlock
 } = require('./i18n-ssr');
 
 function localizeData(data, lang) {
@@ -313,6 +315,9 @@ function articleBodyHtml(data, slug, config, lang = 'hy') {
     ${causeList ? `<section class="seo-service-section"><h2>${lang === 'ru' ? 'Возможные причины' : lang === 'en' ? 'Possible causes' : 'Պատճառներ'}</h2><ul class="hss-list">${causeList}</ul></section>` : ''}
     ${whenList ? `<section class="seo-service-section"><h2>${esc(u.whenToSeek)}</h2><ul class="hss-list">${whenList}</ul></section>` : ''}
     ${faq}
+    ${editorialTrustBlock(lang)}
+    ${emergencyRedFlagBlock(lang)}
+    <p><a href="/services" class="hss-link">${esc(u.services)}</a> · <a href="/conditions" class="hss-link">${esc(u.conditions)}</a> · <a href="/consultation-process" class="hss-link">${esc(u.consultation)}</a> · <a href="/find-a-doctor" class="hss-link">${esc(u.findDoctors)}</a></p>
     <p><a href="/knowledge" class="hss-link">← ${esc(u.knowledge)}</a></p>
   </article>`;
 }
