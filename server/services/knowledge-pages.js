@@ -213,6 +213,13 @@ function articleJsonLd(data, config, url) {
 
 const KNOWLEDGE_I18N = require('./knowledge-i18n');
 const {
+  missingKnowledgeConfig,
+  logMissingTranslation,
+  KNOWLEDGE_HUB,
+  KNOWLEDGE_HUB_DISPLAY,
+  applyHubDisplay
+} = require('./locale-content');
+const {
   normalizeLang,
   ui,
   clinicDisplayName,
@@ -233,7 +240,10 @@ function localizeData(data, lang) {
 function getKnowledgeConfig(slug, lang) {
   lang = normalizeLang(lang);
   if (lang === 'hy') return KNOWLEDGE_CONFIG[slug];
-  return KNOWLEDGE_I18N[lang]?.[slug];
+  const overlay = KNOWLEDGE_I18N[lang]?.[slug] || KNOWLEDGE_I18N.en?.[slug];
+  if (overlay) return overlay;
+  logMissingTranslation('knowledge', slug, lang);
+  return missingKnowledgeConfig(slug, lang);
 }
 
 function hubMeta(data, lang = 'hy') {
@@ -246,9 +256,10 @@ function hubMeta(data, lang = 'hy') {
       title: `${name} — Գիտելիքների կենտրոն և ցավի գնահատում | ${city}`,
       description: 'Տեղեկատվական հոդվածներ ողնաշարի, ցավի և վերականգնման թեմաներով «Առողջ ողնաշար» կենտրոնից։',
       h1: 'Գիտելիքների կենտրոն',
-      tagline: 'Տեղեկատվական հոդվածներ և խորհրդատվության ուղեցույցներ'
+      tagline: KNOWLEDGE_HUB.hy.tagline
     };
   }
+  const hub = KNOWLEDGE_HUB[lang];
   return {
     title: `${name} — ${u.knowledge} | ${city}`,
     description:
@@ -256,7 +267,7 @@ function hubMeta(data, lang = 'hy') {
         ? `Информационные статьи центра ${name} о здоровье позвоночника.`
         : `Informational articles from ${name} about spine health.`,
     h1: u.knowledge,
-    tagline: lang === 'ru' ? 'Информационные материалы о симптомах и восстановлении' : 'Informational guides about symptoms and recovery'
+    tagline: hub.tagline
   };
 }
 
@@ -275,12 +286,14 @@ function articleMeta(config, data, lang = 'hy') {
 function hubBodyHtml(lang = 'hy') {
   lang = normalizeLang(lang);
   const u = ui(lang);
-  const pages = LAUNCHED_KNOWLEDGE_SLUGS.map((slug) => getKnowledgeConfig(slug, lang));
-  const topicsH = lang === 'ru' ? 'Статьи' : lang === 'en' ? 'Articles' : 'Հոդվածներ';
+  const hub = KNOWLEDGE_HUB[lang];
+  const pages = LAUNCHED_KNOWLEDGE_SLUGS.map((slug) =>
+    applyHubDisplay(getKnowledgeConfig(slug, lang), slug, lang, KNOWLEDGE_HUB_DISPLAY)
+  );
   return `<article class="seo-crawl-content seo-knowledge-hub" id="seo-crawl-content">
     ${breadcrumbNavHtml([{ href: '#', label: u.knowledge }], lang)}
-    <div class="hss-prose"><p>${esc(u.disclaimer)}</p></div>
-    <section class="seo-service-section"><h2>${esc(topicsH)}</h2><ul class="hss-list">${pages
+    <div class="hss-prose"><p>${esc(hub.intro)}</p></div>
+    <section class="seo-service-section"><h2>${esc(hub.topicsHeading)}</h2><ul class="hss-list">${pages
       .map(
         (c, i) =>
           `<li><a href="/knowledge/${esc(LAUNCHED_KNOWLEDGE_SLUGS[i])}"><strong>${esc(c.h1)}</strong></a> — ${esc(c.tagline)}</li>`

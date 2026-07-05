@@ -404,6 +404,13 @@ function findService(data, slug) {
 
 const CONDITION_I18N = require('./condition-i18n');
 const {
+  missingConditionConfig,
+  logMissingTranslation,
+  CONDITIONS_HUB,
+  CONDITIONS_HUB_DISPLAY,
+  applyHubDisplay
+} = require('./locale-content');
+const {
   normalizeLang,
   ui,
   clinicDisplayName,
@@ -426,7 +433,10 @@ function localizeData(data, lang) {
 function getConditionConfig(slug, lang) {
   lang = normalizeLang(lang);
   if (lang === 'hy') return CONDITION_CONFIG[slug];
-  return CONDITION_I18N[lang]?.[slug] || CONDITION_I18N.en[slug];
+  const overlay = CONDITION_I18N[lang]?.[slug] || CONDITION_I18N.en?.[slug];
+  if (overlay) return overlay;
+  logMissingTranslation('condition', slug, lang);
+  return missingConditionConfig(slug, lang);
 }
 
 function ctaBlock(lang = 'hy') {
@@ -588,9 +598,10 @@ function hubMeta(data, lang = 'hy') {
       description:
         'Մեջքի և պարանոցի ցավի վերաբերյալ տեղեկատվություն և վերականգնողական խորհրդատվություն «Առողջ ողնաշար» կենտրոնում Երևանում։',
       h1: 'Ախտորոշումներ և ցավի թեմաներ',
-      tagline: 'Տեղեկատվական էջեր՝ ախտանիշային որոնումից ծառայությունների վերականգնողական մոտեցումներ'
+      tagline: CONDITIONS_HUB.hy.tagline
     };
   }
+  const hub = CONDITIONS_HUB[lang];
   const u = ui(lang);
   return {
     title: `${name} — ${u.conditions} | ${city}`,
@@ -599,24 +610,22 @@ function hubMeta(data, lang = 'hy') {
         ? `Информация о боли в спине и шее и реабилитационная поддержка в центре ${name} в ${city}.`
         : `Information about back and neck pain and rehabilitation support at ${name} in ${city}.`,
     h1: u.conditions,
-    tagline: lang === 'ru' ? 'Информационные страницы о симптомах и восстановлении' : 'Informational pages about symptoms and recovery'
+    tagline: hub.tagline
   };
 }
 
 function hubBodyHtml(lang = 'hy') {
   lang = normalizeLang(lang);
   const u = ui(lang);
-  const pages = LAUNCHED_CONDITION_SLUGS.map((slug) => getConditionConfig(slug, lang));
-  const intro =
-    lang === 'hy'
-      ? 'Այս բաժինը տեղեկատվական է և կարող է օգնել հասկանալ, թե երբ վերականգնողական խորհրդատվությունը կարող է հարմար լինել։ Էջերը չեն տալիս ախտորոշում և չեն երաշխավորում բուժման արդյունք։'
-      : u.disclaimer;
-  const topicsH = lang === 'ru' ? 'Доступные темы' : lang === 'en' ? 'Available topics' : 'Հասանելի թեմաներ';
+  const hub = CONDITIONS_HUB[lang];
+  const pages = LAUNCHED_CONDITION_SLUGS.map((slug) =>
+    applyHubDisplay(getConditionConfig(slug, lang), slug, lang, CONDITIONS_HUB_DISPLAY)
+  );
   return `<article class="seo-crawl-content seo-conditions-hub" id="seo-crawl-content">
     ${breadcrumbNavHtml([{ href: '#', label: u.conditions }], lang)}
-    <div class="hss-prose"><p>${esc(intro)}</p></div>
+    <div class="hss-prose"><p>${esc(hub.intro)}</p></div>
     <section class="seo-service-section">
-      <h2>${esc(topicsH)}</h2>
+      <h2>${esc(hub.topicsHeading)}</h2>
       <ul class="hss-list">${pages
         .map(
           (c, i) =>

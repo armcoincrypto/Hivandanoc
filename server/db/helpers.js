@@ -6,6 +6,52 @@ const { normalizeCategoryId } = require('../services/service-catalog');
 
 const LANGS = ['hy', 'ru', 'en'];
 const HOSPITAL_JSON = path.join(__dirname, '../../data/hospital.json');
+const ARMENIAN_RE = /[\u0531-\u0587]/;
+const langDeptCache = {};
+
+function loadLangDepartmentMap(lang) {
+  if (lang === 'hy') return null;
+  if (langDeptCache[lang]) return langDeptCache[lang];
+  try {
+    const file = path.join(__dirname, '../../lang', `${lang}.json`);
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    const map = {};
+    for (const dep of data.content?.departments || []) {
+      if (dep?.id) map[dep.id] = dep;
+    }
+    langDeptCache[lang] = map;
+    return map;
+  } catch {
+    langDeptCache[lang] = {};
+    return langDeptCache[lang];
+  }
+}
+
+function localizeServiceItems(serviceId, items, lang) {
+  if (lang === 'hy') {
+    return items.map((item) => (typeof item === 'string' ? item : pick(item, 'name', 'hy') || item.name || ''));
+  }
+  const overlay = loadLangDepartmentMap(lang)?.[serviceId];
+  const enOverlay = lang === 'ru' ? loadLangDepartmentMap('en')?.[serviceId] : null;
+  if (overlay?.services?.length && !overlay.services.some((s) => ARMENIAN_RE.test(String(s)))) {
+    return overlay.services;
+  }
+  return items
+    .map((item, idx) => {
+      if (typeof item === 'object') {
+        const localized = pick(item, 'name', lang) || pick(item, 'name', 'en');
+        if (localized && !ARMENIAN_RE.test(localized)) return localized;
+        return '';
+      }
+      if (typeof item === 'string' && !ARMENIAN_RE.test(item)) return item;
+      const fromOverlay = overlay?.services?.[idx];
+      if (fromOverlay && !ARMENIAN_RE.test(fromOverlay)) return fromOverlay;
+      const fromEn = enOverlay?.services?.[idx];
+      if (fromEn && !ARMENIAN_RE.test(fromEn)) return fromEn;
+      return '';
+    })
+    .filter(Boolean);
+}
 
 function pick(row, field, lang) {
   if (!row) return '';
@@ -183,12 +229,7 @@ function buildPublicContent(lang = 'hy') {
         name: pick(s, 'title', lang),
         icon: s.icon || '🩺',
         description: pick(s, 'description', lang),
-        services: items.map((item) => {
-          if (typeof item === 'string') return item;
-          const localized = pick(item, 'name', lang);
-          if (localized) return localized;
-          return lang === 'ru' ? item.name || '' : '';
-        }),
+        services: localizeServiceItems(s.id, items, lang),
         price: s.price,
         duration: s.duration,
         doctorId: s.doctor_id,
