@@ -7,7 +7,7 @@ const SiteSEO = (function () {
     org: '«Առողջ ողնաշար»',
     baseUrl: 'https://healthyspinedoc.com',
     defaultImage: 'images/brand/logo.png',
-    phone: '+37410000000',
+    phone: '+37493274888',
     email: 'info@healthyspine.am'
   };
 
