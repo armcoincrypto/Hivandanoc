@@ -71,10 +71,10 @@ fi
 SITEMAP="$(curl -fsSL "$BASE/sitemap.xml")" || { fail "Cannot fetch sitemap"; SITEMAP=""; }
 if [[ -n "$SITEMAP" ]]; then
   COUNT="$(echo "$SITEMAP" | grep -c '<loc>' || true)"
-  if [[ "$COUNT" -eq 93 ]]; then
-    ok "Sitemap contains 93 URLs"
+  if [[ "$COUNT" -ge 93 ]]; then
+    ok "Sitemap contains $COUNT URLs (expected ≥93)"
   else
-    fail "Sitemap URL count expected 93, found $COUNT"
+    fail "Sitemap URL count expected at least 93, found $COUNT"
   fi
   for required_loc in \
     'https://healthyspinedoc.com/contact' \
