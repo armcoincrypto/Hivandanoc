@@ -182,13 +182,6 @@ const I18n = (function () {
   }
 
   async function setLanguage(lang) {
-    if (
-      typeof LocalePolicy !== 'undefined' &&
-      LocalePolicy.isCanonicalSeoPage() &&
-      lang !== 'hy'
-    ) {
-      return;
-    }
     if (!supportedCodes().includes(lang) || lang === currentLang) return;
     await loadLanguage(lang);
     applyDOM();
@@ -218,13 +211,7 @@ const I18n = (function () {
         /* ignore */
       }
       const codes = supportedCodes();
-      const forceHy =
-        typeof LocalePolicy !== 'undefined' && LocalePolicy.isCanonicalSeoPage();
-      const lang = forceHy
-        ? 'hy'
-        : codes.includes(saved)
-          ? saved
-          : config.default || 'hy';
+      const lang = codes.includes(saved) ? saved : config.default || 'hy';
       await loadLanguage(lang);
       applyDOM();
       return currentLang;

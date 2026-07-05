@@ -133,7 +133,11 @@
     }
     if (el.id === 'header-logo') {
       document.querySelectorAll('#header-logo, .logo-img--mark').forEach((img) => {
-        img.src = val;
+        const url = val && !img.closest('.logo-brand--footer') ? val : null;
+        img.src =
+          typeof HospitalApp !== 'undefined' && HospitalApp.normalizeAssetUrl
+            ? HospitalApp.normalizeAssetUrl(url || '/images/brand/logo-mark.png')
+            : url || '/images/brand/logo-mark.png';
       });
       return;
     }
