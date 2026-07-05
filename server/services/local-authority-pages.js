@@ -82,7 +82,7 @@ function servePage(routePath) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>${esc(config.title)}</title>
     <link rel="stylesheet" href="/css/hospital-theme.css?v=20260704">
-    <link rel="stylesheet" href="/css/hss-spine.css?v=20260704">
+    <link rel="stylesheet" href="/css/hss-spine.css?v=20260759">
     ${headMeta(config)}
     ${jsonLd(graphs)}
 </head>
@@ -114,7 +114,7 @@ function servePage(routePath) {
     <script src="/js/i18n.js?v=20260702"></script>
     <script src="/js/cms-config.js?v=20260710"></script>
     <script src="/js/cms-content.js?v=20260718"></script>
-    <script src="/js/common.js?v=20260726"></script>
+    <script src="/js/common.js?v=20260771"></script>
 </body>
 </html>`;
 }

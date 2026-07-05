@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-    <script>(function(){document.documentElement.lang='hy';document.documentElement.classList.add('i18n-pending');})();</script>
+    <script>(function(){var c=['hy','ru','en'],l='hy',k='gkb_lang';try{var s=localStorage.getItem(k);if(s&&c.indexOf(s)>=0)l=s;}catch(e){}document.documentElement.lang=l;document.documentElement.classList.add('i18n-pending');})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="«Առողջ ողնաշար» — պոզանոցի և հոդերի վերականգնողական կենտրոն">
@@ -9,10 +9,10 @@
     <link rel="canonical" href="https://healthyspinedoc.com/">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["MedicalClinic","Organization"],"name":"Healthy Spine","url":"https://healthyspinedoc.com/","address":{"@type":"PostalAddress","addressLocality":"Yerevan","addressCountry":"AM"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://healthyspinedoc.com/"}]}]}</script>
     <title>Առողջ ողնաշար</title>
-    <link rel="stylesheet" href="css/hospital-theme.css?v=20260702">
-    <link rel="stylesheet" href="css/hss-spine.css?v=20260731">
-<script src="js/locale-policy.js?v=20260703"></script>
-<script src="js/i18n-boot.js?v=20260718"></script>
+    <link rel="stylesheet" href="css/hospital-theme.css?v=20260772">
+    <link rel="stylesheet" href="css/hss-spine.css?v=20260772">
+<script src="js/locale-policy.js?v=20260762"></script>
+<script src="js/i18n-boot.js?v=20260762"></script>
 </head>
 <body class="hss-page" data-page="home" data-i18n-title="pages.home.title">
     <div id="site-nav"></div>
@@ -114,12 +114,9 @@
             </div>
         </section>
 
-        <!-- Back in the game — brand story split -->
+        <!-- Back in the game — brand story split (text left, media right) -->
         <section class="hss-split hss-brand-story" id="brand-story">
             <div class="hss-wrap hss-split__grid">
-                <div class="hss-split__media">
-                    <img id="back-in-game-image" src="" alt="">
-                </div>
                 <div class="hss-split__text">
                     <div class="hss-brand-story__logo">
                         <img src="images/brand/logo.png" alt="Առողջ ողնաշար" width="48" height="48" class="logo-img--mark">
@@ -127,6 +124,9 @@
                     </div>
                     <div class="hss-prose" id="back-in-game-text"></div>
                     <p><a href="#patient-stories" class="hss-link" id="back-in-game-link">—</a></p>
+                </div>
+                <div class="hss-split__media">
+                    <img id="back-in-game-image" src="" alt="">
                 </div>
             </div>
         </section>
@@ -186,14 +186,6 @@
             <div class="hss-wrap hss-awards__grid" id="home-awards-grid"></div>
         </section>
 
-        <!-- 9. Patient video stories -->
-        <section class="hss-section hss-section--alt" id="reviews">
-            <div class="hss-wrap">
-                <h2 data-i18n="pages.home.reviewsTitle">—</h2>
-                <div class="hss-videos" id="home-story-videos"></div>
-            </div>
-        </section>
-
         <!-- 10. News cards -->
         <section class="hss-section" id="news">
             <div class="hss-wrap">
@@ -206,7 +198,7 @@
         </section>
 
         <!-- 11. Patient stories grid -->
-        <section class="hss-section hss-section--alt" id="patient-stories">
+        <section class="hss-section hss-section--alt hss-patient-stories" id="patient-stories">
             <div class="hss-wrap">
                 <div class="hss-section-head">
                     <h2 data-i18n="pages.home.storiesTitle">—</h2>
@@ -235,12 +227,12 @@
 
     <script src="data/hospital.embed.js"></script>
 <script src="js/storage.js"></script>
-    <script src="js/i18n.js?v=20260702"></script>
+    <script src="js/i18n.js?v=20260762"></script>
     <script src="js/cms-config.js?v=20260710"></script>
     <script src="js/cms-content.js?v=20260718"></script>
     <script src="js/clinic-map.js?v=20260712"></script>
-    <script src="js/common.js?v=20260726"></script>
+    <script src="js/common.js?v=20260771"></script>
     <script src="js/doctor-search.js?v=20260717"></script>
-    <script src="js/home.js?v=20260710"></script>
+    <script src="js/home.js?v=20260763"></script>
 </body>
 </html>
