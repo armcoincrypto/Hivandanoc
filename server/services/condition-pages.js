@@ -418,6 +418,7 @@ const {
   breadcrumbNavHtml,
   jsonLdBreadcrumb,
   applyHtmlLang,
+  injectLocaleIntoLinks,
   pageMetaFromDict,
   localizedAddress,
   emergencyRedFlagBlock,
@@ -680,6 +681,7 @@ function prepareHtml(fileName, meta, canonicalPath, bodyHtml, jsonLdGraphs, lang
 
   html = html.replace(/<body([^>]*)>/, `<body$1 data-seo-canonical="${esc(canonicalPath)}">`);
   html = applyHtmlLang(html, lang);
+  html = injectLocaleIntoLinks(html, lang);
   return normalizeRootAssetPaths(html);
 }
 

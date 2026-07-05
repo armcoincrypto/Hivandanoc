@@ -263,10 +263,14 @@ const HospitalApp = (function () {
     return rootAsset(url);
   }
 
-  /** Root-relative route — works on nested clean URLs */
+  /** Root-relative route — works on nested clean URLs; preserves active locale in query. */
   function routeHref(path) {
     const normalized = path.startsWith('/') ? path : `/${path}`;
-    return isAdminPath() ? `../${normalized.replace(/^\//, '')}` : normalized;
+    const base = isAdminPath() ? `../${normalized.replace(/^\//, '')}` : normalized;
+    if (typeof LocalePolicy !== 'undefined' && LocalePolicy.withLang) {
+      return LocalePolicy.withLang(base);
+    }
+    return base;
   }
 
   function logoPath() {
@@ -492,6 +496,7 @@ const HospitalApp = (function () {
     initMobileMenu();
     syncHeaderOffset();
     initHeaderScroll();
+    if (typeof LocalePolicy !== 'undefined') LocalePolicy.patchDocumentLinks();
   }
 
   function socialIconSvg(name) {
@@ -858,6 +863,7 @@ const HospitalApp = (function () {
       </footer>`;
 
     renderHospitalMap(document.getElementById('footer-map'), h);
+    if (typeof LocalePolicy !== 'undefined') LocalePolicy.patchDocumentLinks();
   }
 
   function syncHeaderOffset() {
@@ -1268,6 +1274,7 @@ const HospitalApp = (function () {
     initPageUtilities();
     injectFormConsentText();
     I18n.applyDOM();
+    if (typeof LocalePolicy !== 'undefined') LocalePolicy.patchDocumentLinks();
     const data = getData();
     const page = document.body.dataset.page || 'home';
     const pageKeyMap = {
