@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
 const { getDb } = require('./index');
+const { normalizeCategoryId } = require('../services/service-catalog');
 
 const LANGS = ['hy', 'ru', 'en'];
 const HOSPITAL_JSON = path.join(__dirname, '../../data/hospital.json');
@@ -177,7 +178,8 @@ function buildPublicContent(lang = 'hy') {
       }
       return {
         id: s.id,
-        category: s.category_id,
+        category: normalizeCategoryId(s.category_id),
+        category_id: s.category_id,
         name: pick(s, 'title', lang),
         icon: s.icon || '🩺',
         description: pick(s, 'description', lang),

@@ -3,6 +3,7 @@ const path = require('path');
 const { buildPublicContent } = require('../db/helpers');
 const { getLaunchedServiceSlugs } = require('./service-pages');
 const { clinicNode, localBusinessNode, clinicName } = require('./entity-schema');
+const { normalizeRootAssetPaths } = require('./html-utils');
 
 const SITE_ROOT = path.join(__dirname, '../..');
 const BASE = (process.env.PUBLIC_SITE_URL || 'https://healthyspinedoc.com').replace(/\/$/, '');
@@ -269,6 +270,13 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
+/** Place SEO crawl block above footer without disturbing page layout. */
+function wrapSeoDock(body) {
+  return `<section class="hss-seo-dock hss-section hss-section--alt" id="seo-crawl-dock" aria-label="Site information">
+    <div class="hss-wrap hss-seo-dock__inner">${body}</div>
+  </section>`;
+}
+
 function breadcrumb(url, name) {
   return {
     '@type': 'BreadcrumbList',
@@ -427,14 +435,15 @@ function serveSeoPage(routePath) {
 
   const body = route.bodyHtml(data);
   if (body) {
-    if (html.includes('id="doctors-grid"')) {
-      html = html.replace(/(<div class="hss-doctor-list" id="doctors-grid">)\s*(<\/div>)/, `$1${body}$2`);
-    } else if (html.includes('id="departments-grid"')) {
-      html = html.replace(/(<div id="departments-grid">)\s*(<\/div>)/, `$1${body}$2`);
-    } else if (html.includes('id="main-content"')) {
-      html = html.replace(/(<main[^>]*id="main-content"[^>]*>)/, `$1${body}`);
+    const dock = wrapSeoDock(body);
+    if (html.includes('id="seo-crawl-slot"')) {
+      html = html.replace(/(<div id="seo-crawl-slot">)\s*(<\/div>)/, `$1${dock}$2`);
+    } else if (html.includes('</main>')) {
+      html = html.replace('</main>', `${dock}\n</main>`);
+    } else if (html.includes('id="site-footer"')) {
+      html = html.replace(/(<div id="site-footer">)/, `${dock}\n$1`);
     } else {
-      html = html.replace('</body>', `${body}\n</body>`);
+      html = html.replace('</body>', `${dock}\n</body>`);
     }
   }
 
@@ -443,7 +452,7 @@ function serveSeoPage(routePath) {
     `<body data-seo-canonical="${esc(routePath)}" data-seo-page="${esc(route.pageKey)}"`
   );
 
-  return html;
+  return normalizeRootAssetPaths(html);
 }
 
 module.exports = { ROUTES, serveSeoPage, BASE };

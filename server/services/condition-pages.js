@@ -3,6 +3,7 @@ const path = require('path');
 const { buildPublicContent } = require('../db/helpers');
 const { clinicNode, clinicName } = require('./entity-schema');
 const { getKnowledgeLinksForCondition, KNOWLEDGE_CONFIG } = require('./knowledge-pages');
+const { normalizeRootAssetPaths } = require('./html-utils');
 
 const SITE_ROOT = path.join(__dirname, '../..');
 const BASE = (process.env.PUBLIC_SITE_URL || 'https://healthyspinedoc.com').replace(/\/$/, '');
@@ -441,19 +442,6 @@ function knowledgeLinksHtml(slugs) {
     : '';
 }
 
-function knowledgeLinksHtml(slugs) {
-  const list = slugs
-    .map((id) => {
-      const c = KNOWLEDGE_CONFIG[id];
-      if (!c) return '';
-      return `<li><a href="/knowledge/${esc(id)}"><strong>${esc(c.h1)}</strong></a></li>`;
-    })
-    .join('');
-  return list
-    ? `<section class="seo-service-section"><h2>Կապված հոդվածներ</h2><ul class="hss-list">${list}</ul><p><a href="/knowledge" class="hss-link">Գիտելիքների կենտրոն</a></p></section>`
-    : '';
-}
-
 function serviceLinksHtml(data, slugs, intro) {
   const items = slugs
     .map((id) => findService(data, id))
@@ -613,7 +601,7 @@ function prepareHtml(fileName, meta, canonicalPath, bodyHtml, jsonLdGraphs) {
 
   html = html.replace(/<body([^>]*)>/, `<body$1 data-seo-canonical="${esc(canonicalPath)}">`);
 
-  return html;
+  return normalizeRootAssetPaths(html);
 }
 
 function serveConditionsHub() {

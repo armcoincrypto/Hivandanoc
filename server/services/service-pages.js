@@ -3,6 +3,7 @@ const path = require('path');
 const { buildPublicContent } = require('../db/helpers');
 const { clinicNode, clinicName, medicalClinicProvider } = require('./entity-schema');
 const { getKnowledgeLinksForService, KNOWLEDGE_CONFIG } = require('./knowledge-pages');
+const { normalizeRootAssetPaths } = require('./html-utils');
 
 const SITE_ROOT = path.join(__dirname, '../..');
 const BASE = (process.env.PUBLIC_SITE_URL || 'https://healthyspinedoc.com').replace(/\/$/, '');
@@ -436,7 +437,7 @@ function prepareHtml(fileName, meta, canonicalPath, bodyHtml, jsonLdGraphs) {
 
   html = html.replace(/<body([^>]*)>/, `<body$1 data-seo-canonical="${esc(canonicalPath)}">`);
 
-  return html;
+  return normalizeRootAssetPaths(html);
 }
 
 function serveServicesHub() {
