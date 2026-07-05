@@ -357,6 +357,14 @@ function applyHubDisplay(config, slug, lang, displayMap) {
   return { ...config, h1: display.h1, tagline: display.tagline };
 }
 
+/** Shared shallow hospital name localization for SSR page handlers. */
+function localizeData(data, lang) {
+  lang = normalizeLang(lang);
+  const d = { ...data, hospital: { ...(data.hospital || {}) } };
+  d.hospital.name = clinicDisplayName(data, lang);
+  return d;
+}
+
 /** Documented allowlist for audit script (proper names without localized form). */
 const AUDIT_NAME_ALLOWLIST = [
   'ISICO',
@@ -454,6 +462,7 @@ module.exports = {
   missingConditionConfig,
   missingKnowledgeConfig,
   applyHubDisplay,
+  localizeData,
   logMissingTranslation,
   humanizeSlug
 };

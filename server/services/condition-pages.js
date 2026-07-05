@@ -408,7 +408,8 @@ const {
   logMissingTranslation,
   CONDITIONS_HUB,
   CONDITIONS_HUB_DISPLAY,
-  applyHubDisplay
+  applyHubDisplay,
+  localizeData
 } = require('./locale-content');
 const {
   normalizeLang,
@@ -422,13 +423,6 @@ const {
   emergencyRedFlagBlock,
   editorialTrustBlock
 } = require('./i18n-ssr');
-
-function localizeData(data, lang) {
-  lang = normalizeLang(lang);
-  const d = { ...data, hospital: { ...(data.hospital || {}) } };
-  d.hospital.name = clinicDisplayName(data, lang);
-  return d;
-}
 
 function getConditionConfig(slug, lang) {
   lang = normalizeLang(lang);

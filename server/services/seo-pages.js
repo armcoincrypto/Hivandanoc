@@ -11,32 +11,14 @@ const {
   jsonLdBreadcrumb,
   breadcrumbNavHtml,
   applyHtmlLang,
-  contactBlockHtml
+  contactBlockHtml,
+  normalizeLang,
+  loadLangDict,
+  dictPath
 } = require('./i18n-ssr');
 
 const SITE_ROOT = path.join(__dirname, '../..');
 const BASE = (process.env.PUBLIC_SITE_URL || 'https://healthyspinedoc.com').replace(/\/$/, '');
-
-let hyDictCache = null;
-
-function loadLangDict(lang = 'hy') {
-  if (lang === 'hy' && hyDictCache) return hyDictCache;
-  try {
-    const dict = JSON.parse(fs.readFileSync(path.join(SITE_ROOT, `lang/${lang}.json`), 'utf8'));
-    if (lang === 'hy') hyDictCache = dict;
-    return dict;
-  } catch {
-    return {};
-  }
-}
-
-function dictPath(dict, key) {
-  return key.split('.').reduce((o, p) => (o && o[p] !== undefined ? o[p] : undefined), dict);
-}
-
-function normalizeLang(raw) {
-  return ['hy', 'ru', 'en'].includes(raw) ? raw : 'hy';
-}
 
 const HOME_CRAWL = {
   hy: {
@@ -395,7 +377,7 @@ function consultationBodyHtml(data, lang = 'hy') {
     ${stepsHtml}
     <section class="seo-service-section"><h2>${esc(noteH)}</h2><div class="hss-prose"><p>${esc(u.disclaimer)}</p></div></section>
     <p><a href="/services" class="hss-link">${esc(u.services)}</a> · <a href="/conditions" class="hss-link">${esc(u.conditions)}</a> · <a href="/knowledge" class="hss-link">${esc(u.knowledge)}</a></p>
-    ${contactBlockHtml(data, lang, 'contact')}
+    ${contactBlockHtml(data, lang, 'contact', { nested: true })}
     <nav class="seo-service-cta" aria-label="Next steps"><p><a href="/contact" class="hss-btn hss-btn--primary">${esc(u.bookAppointment)}</a> <a href="/contact" class="hss-btn hss-btn--outline">${esc(u.contact)}</a></p></nav>
   </article>`;
 }

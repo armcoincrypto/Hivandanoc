@@ -131,13 +131,7 @@ const {
   editorialTrustBlock
 } = require('./i18n-ssr');
 const { getConditionConfig } = require('./condition-pages');
-
-function localizeData(data, lang) {
-  lang = normalizeLang(lang);
-  const d = { ...data, hospital: { ...(data.hospital || {}) } };
-  d.hospital.name = clinicDisplayName(data, lang);
-  return d;
-}
+const { localizeData } = require('./locale-content');
 
 function ctaBlock(lang = 'hy') {
   const u = ui(lang);

@@ -82,7 +82,15 @@ function servePage(routePath, lang = 'hy') {
   }
   bcItems.push({ name: config.h1, url });
 
-  const graphs = config.schema ? config.schema(data, url) : [clinicNode(data)];
+  const graphs = [
+    {
+      '@type': 'WebPage',
+      name: config.h1,
+      url,
+      description: config.description,
+      isPartOf: { '@type': 'WebSite', name: clinicDisplayName(data, lang), url: `${BASE}/` }
+    }
+  ];
   graphs.push(
     jsonLdBreadcrumb(
       BASE,

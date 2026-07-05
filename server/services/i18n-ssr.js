@@ -262,7 +262,7 @@ function localizedAddress(h, lang) {
   return h.address || '6 Մարգարյան փ., Երևան 0078';
 }
 
-function contactBlockHtml(data, lang, variant = 'contact') {
+function contactBlockHtml(data, lang, variant = 'contact', options = {}) {
   const h = data?.hospital || {};
   const u = ui(lang);
   const phone = h.phone || '';
@@ -273,7 +273,8 @@ function contactBlockHtml(data, lang, variant = 'contact') {
     variant === 'locations'
       ? `<p><strong>${esc(u.address)}</strong> <a href="https://maps.google.com/?q=${encodeURIComponent(h.mapsQuery || address)}" target="_blank" rel="noopener">${esc(address)}</a></p><p>${lang === 'ru' ? 'Карта и маршрут доступны на этой странице.' : lang === 'en' ? 'Map and directions are available on this page.' : 'Քարտեզը և ուղղությունները հասանելի են այս էջում։'}</p>`
       : '';
-  return `<section class="seo-crawl-content hss-contact-block" id="seo-crawl-content">
+  const blockId = options.nested ? 'seo-contact-block' : 'seo-crawl-content';
+  return `<section class="seo-crawl-content hss-contact-block" id="${blockId}">
     <p><strong>${esc(u.phone)}</strong> <a href="tel:${phoneClean}" class="hss-tel">${esc(phone)}</a></p>
     <p><strong>${esc(u.email)}</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>
     <p><strong>${esc(u.hours)}</strong> ${esc(h.hours || '')}</p>
