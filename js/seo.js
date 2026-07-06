@@ -58,7 +58,7 @@ const SiteSEO = (function () {
     'submit-story': {
       descriptionKey: 'pages.submitStory.seoDescription',
       fallbackDescription: 'Share your recovery story with the Healthy Spine community.',
-      canonical: '/submit-story.html'
+      canonical: '/submit-story'
     },
     'move-better': {
       descriptionKey: 'pages.moveBetter.seoDescription',
@@ -68,27 +68,27 @@ const SiteSEO = (function () {
     'patient-story': {
       descriptionKey: 'pages.patientStory.seoDescription',
       fallbackDescription: 'Patient recovery story at Healthy Spine rehabilitation center.',
-      canonical: '/patient-story.html'
+      canonical: '/patient-story'
     },
     'legal-privacy': {
       descriptionKey: 'footer.policyPrivacy',
       fallbackDescription: 'Privacy Policy — how Healthy Spine collects, uses, and protects your personal data.',
-      canonical: '/privacy-policy.html'
+      canonical: '/privacy-policy'
     },
     'legal-cookies': {
       descriptionKey: 'footer.policyCookies',
       fallbackDescription: 'Cookie Policy — how we use cookies and similar technologies on healthyspinedoc.com.',
-      canonical: '/cookies-policy.html'
+      canonical: '/cookies-policy'
     },
     'legal-terms': {
       descriptionKey: 'footer.policyTerms',
       fallbackDescription: 'Terms of Use for the Healthy Spine website.',
-      canonical: '/terms.html'
+      canonical: '/terms'
     },
     'legal-patient': {
       descriptionKey: 'footer.policyPatient',
       fallbackDescription: 'Patient information and rights at Healthy Spine rehabilitation center.',
-      canonical: '/patient-information.html'
+      canonical: '/patient-information'
     }
   };
 
@@ -123,7 +123,7 @@ const SiteSEO = (function () {
     const meta = PAGE_META[page] || PAGE_META.home;
     if (page === 'patient-story') {
       const id = new URLSearchParams(window.location.search).get('id');
-      return id ? `/patient-story.html?id=${encodeURIComponent(id)}` : meta.canonical;
+      return id ? `/patient-story?id=${encodeURIComponent(id)}` : meta.canonical;
     }
     return meta.canonical;
   }

@@ -342,6 +342,7 @@ const ROUTES = {
   '/reviews': simpleDictPageRoute('reviews.html', 'reviews'),
   '/move-better': simpleDictPageRoute('move-better.html', 'moveBetter'),
   '/submit-story': simpleDictPageRoute('submit-story.html', 'submitStory'),
+  '/patient-story': simpleDictPageRoute('patient-story.html', 'patientStory'),
   '/privacy-policy': footerDictPageRoute('privacy-policy.html', 'footer.policyPrivacy'),
   '/terms': footerDictPageRoute('terms.html', 'footer.policyTerms'),
   '/cookies-policy': footerDictPageRoute('cookies-policy.html', 'footer.policyCookies'),

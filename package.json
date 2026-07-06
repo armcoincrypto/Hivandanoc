@@ -14,6 +14,7 @@
     "cms:test": "node scripts/test-admin-api.js && node scripts/test-cms-persist.js",
     "cms:restore-hero": "node scripts/restore-home-hero.js",
     "seo:audit": "node scripts/seo-audit.js",
+    "locale:guard": "node scripts/post-deploy-locale-guard.js",
     "deploy:verify": "npm run seo:audit",
     "predeploy": "npm run seo:audit"
   },

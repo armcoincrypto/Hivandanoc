@@ -304,10 +304,22 @@ function renderHomePage() {
 
   const patientStories = document.getElementById('home-patient-stories');
   if (patientStories) {
+    const storyHref = (id) => {
+      const path = `/patient-story?id=${encodeURIComponent(id)}`;
+      if (typeof HospitalApp !== 'undefined' && typeof HospitalApp.routeHref === 'function') {
+        return HospitalApp.routeHref(path);
+      }
+      if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.withLang === 'function') {
+        const lang =
+          typeof LocalePolicy.getActiveLang === 'function' ? LocalePolicy.getActiveLang() : 'hy';
+        return LocalePolicy.withLang(path, lang);
+      }
+      return path;
+    };
     patientStories.innerHTML = (data.patientStories || [])
       .map(
         (s) => `
-      <a href="patient-story.html?id=${s.id}" class="hss-patient hss-patient--link" aria-label="${s.name}">
+      <a href="${storyHref(s.id)}" class="hss-patient hss-patient--link" aria-label="${s.name}">
         <article class="hss-patient__card">
           <div class="hss-patient__photo">
             <span class="hss-patient__ring" aria-hidden="true"></span>
