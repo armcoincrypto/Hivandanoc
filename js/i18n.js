@@ -222,24 +222,14 @@ const I18n = (function () {
     initPromise = (async () => {
       await loadConfig();
       const key = config.storageKey || 'gkb_lang';
-      const codes = supportedCodes();
-      let lang = config.default || 'hy';
+      let saved = null;
       try {
-        const qp = new URLSearchParams(window.location.search).get('lang');
-        if (qp && codes.includes(qp)) {
-          lang = qp;
-        } else {
-          let saved = null;
-          try {
-            saved = localStorage.getItem(key);
-          } catch {
-            /* ignore */
-          }
-          if (saved && codes.includes(saved)) lang = saved;
-        }
+        saved = localStorage.getItem(key);
       } catch {
         /* ignore */
       }
+      const codes = supportedCodes();
+      const lang = codes.includes(saved) ? saved : config.default || 'hy';
       await loadLanguage(lang);
       applyDOM();
       return currentLang;

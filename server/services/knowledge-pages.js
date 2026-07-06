@@ -227,7 +227,6 @@ const {
   breadcrumbNavHtml,
   jsonLdBreadcrumb,
   applyHtmlLang,
-  injectLocaleIntoLinks,
   emergencyRedFlagBlock,
   editorialTrustBlock
 } = require('./i18n-ssr');
@@ -393,7 +392,6 @@ function prepareHtml(fileName, meta, canonicalPath, bodyHtml, jsonLdGraphs, lang
   }
   html = html.replace(/<body([^>]*)>/, `<body$1 data-seo-canonical="${esc(canonicalPath)}">`);
   html = applyHtmlLang(html, lang);
-  html = injectLocaleIntoLinks(html, lang);
   return normalizeRootAssetPaths(html);
 }
 

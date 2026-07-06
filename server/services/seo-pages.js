@@ -11,7 +11,6 @@ const {
   jsonLdBreadcrumb,
   breadcrumbNavHtml,
   applyHtmlLang,
-  injectLocaleIntoLinks,
   contactBlockHtml,
   normalizeLang,
   loadLangDict,
@@ -585,7 +584,6 @@ function serveSeoPage(routePath, lang = 'hy') {
   );
 
   html = applyHtmlLang(html, lang);
-  html = injectLocaleIntoLinks(html, lang);
   return normalizeRootAssetPaths(html);
 }
 
