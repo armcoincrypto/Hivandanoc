@@ -229,7 +229,18 @@ const I18n = (function () {
         /* ignore */
       }
       const codes = supportedCodes();
-      const lang = codes.includes(saved) ? saved : config.default || 'hy';
+      let urlLang = null;
+      try {
+        urlLang = new URLSearchParams(window.location.search).get('lang');
+      } catch {
+        /* ignore */
+      }
+      const lang =
+        urlLang === 'en' || urlLang === 'ru'
+          ? urlLang
+          : codes.includes(saved)
+            ? saved
+            : config.default || 'hy';
       await loadLanguage(lang);
       applyDOM();
       return currentLang;

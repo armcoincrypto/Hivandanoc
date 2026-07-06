@@ -263,10 +263,16 @@ const HospitalApp = (function () {
     return rootAsset(url);
   }
 
-  /** Root-relative route — works on nested clean URLs */
+  /** Root-relative route — works on nested clean URLs; preserves ?lang=en|ru from URL */
   function routeHref(path) {
     const normalized = path.startsWith('/') ? path : `/${path}`;
-    return isAdminPath() ? `../${normalized.replace(/^\//, '')}` : normalized;
+    const base = isAdminPath() ? `../${normalized.replace(/^\//, '')}` : normalized;
+    if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.withLang === 'function') {
+      const lang =
+        typeof LocalePolicy.getActiveLang === 'function' ? LocalePolicy.getActiveLang() : 'hy';
+      return LocalePolicy.withLang(base, lang);
+    }
+    return base;
   }
 
   function logoPath() {
@@ -489,6 +495,9 @@ const HospitalApp = (function () {
       </header>`;
 
     I18n.renderSwitcher(mount.querySelector('.lang-switcher'));
+    if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.patchDocumentLinks === 'function') {
+      LocalePolicy.patchDocumentLinks(mount);
+    }
     initMobileMenu();
     syncHeaderOffset();
     initHeaderScroll();
@@ -1264,6 +1273,9 @@ const HospitalApp = (function () {
     await loadData();
     renderNav();
     renderFooter();
+    if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.patchDocumentLinks === 'function') {
+      LocalePolicy.patchDocumentLinks(document.body);
+    }
     applyBranding();
     initPageUtilities();
     injectFormConsentText();
