@@ -173,7 +173,7 @@
       "newsViewAll": "More in our news section ›"
     },
     "about": {
-      "title": "About — CCH No. 1",
+      "title": "About — Healthy Spine",
       "heroLabel": "About us",
       "heroTitle": "About the hospital",
       "heroDesc": "History, mission and values of our medical institution",
@@ -208,7 +208,7 @@
       "ctaDesc": "We are happy to support you on your path to health."
     },
     "doctors": {
-      "title": "Doctors — CCH No. 1",
+      "title": "Doctors — Healthy Spine",
       "heroLabel": "Team",
       "heroTitle": "Our doctors",
       "heroDesc": "Qualified specialists across all major fields",
@@ -355,7 +355,7 @@
     }
   },
   "admin": {
-    "title": "Admin — CCH No. 1",
+    "title": "Admin — Healthy Spine",
     "loginTitle": "Admin login",
     "loginHint": "Authorized staff only. Contact IT if you need access.",
     "demoPassword": "Demo password:",

@@ -9,6 +9,23 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;');
 }
 
+function appointmentHref(extraQuery) {
+  let path = '/appointment';
+  if (extraQuery) {
+    const q = String(extraQuery).replace(/^\?/, '');
+    path = `${path}?${q}`;
+  }
+  if (typeof HospitalApp !== 'undefined' && typeof HospitalApp.routeHref === 'function') {
+    return HospitalApp.routeHref(path);
+  }
+  if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.withLang === 'function') {
+    const lang =
+      typeof LocalePolicy.getActiveLang === 'function' ? LocalePolicy.getActiveLang() : 'hy';
+    return LocalePolicy.withLang(path, lang);
+  }
+  return path;
+}
+
 async function loadStoryDetails() {
   if (storyDetailsCache) return storyDetailsCache;
   const base = typeof I18n.getAssetBase === 'function' ? I18n.getAssetBase() : '';
@@ -69,7 +86,7 @@ async function renderPatientStory() {
       ${paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}
     </div>
     <div class="hss-patient-story__cta">
-      <a href="appointment.html" class="hss-btn hss-btn--primary">${escapeHtml(t('pages.patientStory.bookCta'))}</a>
+      <a href="${appointmentHref()}" class="hss-btn hss-btn--primary">${escapeHtml(t('pages.patientStory.bookCta'))}</a>
     </div>`;
 }
 

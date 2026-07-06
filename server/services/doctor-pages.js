@@ -11,6 +11,8 @@ const {
   jsonLdBreadcrumb,
   applyHtmlLang,
   localizedAddress,
+  injectLocaleIntoLinks,
+  localeHref,
   esc,
   emergencyRedFlagBlock,
   editorialTrustBlock,
@@ -103,7 +105,7 @@ function serviceLinksHtml(data, doctor, lang) {
   const items = slugs
     .map((id) => findService(data, id))
     .filter(Boolean)
-    .map((s) => `<li><a href="/services/${esc(s.id)}">${esc(s.name)}</a></li>`)
+    .map((s) => `<li><a href="${localeHref(`/services/${esc(s.id)}`, lang)}">${esc(s.name)}</a></li>`)
     .join('');
   if (!items) return '';
   return `<section class="seo-service-section"><h2>${esc(u.relatedServices)}</h2><ul class="hss-list">${items}</ul></section>`;
@@ -118,7 +120,7 @@ function conditionLinksHtml(doctor, lang) {
     .map((id) => {
       const c = getConditionConfig(id, lang);
       if (!c) return '';
-      return `<li><a href="/conditions/${esc(id)}">${esc(c.h1)}</a></li>`;
+      return `<li><a href="${localeHref(`/conditions/${esc(id)}`, lang)}">${esc(c.h1)}</a></li>`;
     })
     .join('');
   return `<section class="seo-service-section"><h2>${esc(u.relatedConditions)}</h2><ul class="hss-list">${items}</ul></section>`;
@@ -174,7 +176,7 @@ function doctorBodyHtml(data, doctor, lang = 'hy') {
     ${editorialTrustBlock(lang)}
     ${safetyNoteBlock(lang)}
     ${emergencyRedFlagBlock(lang)}
-    <p><a href="/find-a-doctor" class="hss-link">← ${esc(u.findDoctor)}</a></p>
+    <p><a href="${localeHref('/find-a-doctor', lang)}" class="hss-link">← ${esc(u.findDoctor)}</a></p>
     ${ctaBlockHtml(lang)}
   </article>`;
 }
@@ -219,6 +221,7 @@ function prepareHtml(meta, slug, bodyHtml, jsonLdGraphs, lang = 'hy') {
   html = html.replace(/(<div class="hss-wrap" id="doctor-page-root">)\s*(<\/div>)/, `$1${bodyHtml}$2`);
   html = html.replace(/<body([^>]*)>/, `<body$1 data-seo-canonical="${esc(canonicalPath)}" data-doctor-slug="${esc(slug)}">`);
   html = applyHtmlLang(html, lang);
+  html = injectLocaleIntoLinks(html, lang);
   return normalizeRootAssetPaths(html);
 }
 

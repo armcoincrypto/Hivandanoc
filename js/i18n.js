@@ -230,13 +230,18 @@ const I18n = (function () {
       }
       const codes = supportedCodes();
       let urlLang = null;
-      try {
-        urlLang = new URLSearchParams(window.location.search).get('lang');
-      } catch {
-        /* ignore */
+      if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.resolveLangFromSearch === 'function') {
+        urlLang = LocalePolicy.resolveLangFromSearch();
+      } else {
+        try {
+          urlLang = new URLSearchParams(window.location.search).get('lang');
+          if (urlLang) urlLang = urlLang.trim().toLowerCase();
+        } catch {
+          /* ignore */
+        }
       }
       const lang =
-        urlLang === 'en' || urlLang === 'ru'
+        urlLang && codes.includes(urlLang)
           ? urlLang
           : codes.includes(saved)
             ? saved

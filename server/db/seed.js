@@ -202,7 +202,7 @@ function seedFromHospitalJson() {
   });
 
   const homeSections = [
-    { key: 'hero', order: 0, content: { title: triplet(h.name), subtitle: triplet(h.heroTagline || h.tagline), image: h.heroImage, ctaText: triplet('Book appointment'), ctaLink: 'appointment.html' } },
+    { key: 'hero', order: 0, content: { title: triplet(h.name), subtitle: triplet(h.heroTagline || h.tagline), image: h.heroImage, ctaText: triplet('Book appointment'), ctaLink: '/appointment' } },
     { key: 'search', order: 1, content: { enabled: true } },
     { key: 'info_cards', order: 2, content: { stats: h.stats || [] } },
     { key: 'about', order: 3, content: { title: triplet('About'), text: triplet(h.about), image: h.aboutImage } },
@@ -211,7 +211,7 @@ function seedFromHospitalJson() {
     { key: 'doctors', order: 6, content: { title: triplet('Our team'), limit: 6 } },
     { key: 'testimonials', order: 7, content: { title: triplet('Reviews') } },
     { key: 'blog_preview', order: 8, content: { title: triplet('News'), limit: 3 } },
-    { key: 'cta', order: 9, content: { title: triplet('Book a consultation'), link: 'appointment.html' } },
+    { key: 'cta', order: 9, content: { title: triplet('Book a consultation'), link: '/appointment' } },
     { key: 'footer_cta', order: 10, content: { phone: h.phone } }
   ];
 

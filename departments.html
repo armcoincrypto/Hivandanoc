@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
-    <script>(function(){var c=['hy','ru','en'],l='hy',k='gkb_lang';try{var s=localStorage.getItem(k);if(s&&c.indexOf(s)>=0)l=s;}catch(e){}try{var q=new URLSearchParams(location.search).get('lang');if(q&&c.indexOf(q)>=0)l=q;}catch(e){}document.documentElement.lang=l;document.documentElement.classList.add('i18n-pending');})();</script>
+    <script>(function(){var c=['hy','ru','en'],l='hy',k='gkb_lang';try{var s=localStorage.getItem(k);if(s&&c.indexOf(s)>=0)l=s;}catch(e){}try{var p=new URLSearchParams(location.search);p.getAll('lang').some(function(q){q=String(q||'').trim().toLowerCase();if(c.indexOf(q)>=0){l=q;return true;}return false;});}catch(e){}document.documentElement.lang=l;document.documentElement.classList.add('i18n-pending');})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Rehabilitation services for spine, joints, and musculoskeletal conditions at Healthy Spine — physiotherapy, diagnostics, and recovery programs.">
@@ -10,7 +10,10 @@
     <title>Patient Care &amp; Services — Healthy Spine</title>
     <link rel="stylesheet" href="css/hospital-theme.css?v=20260772">
     <link rel="stylesheet" href="css/hss-spine.css?v=20260759">
-<script src="js/locale-policy.js?v=20260703"></script>
+<script src="js/locale-policy.js?v=20260762"></script>
+<script src="lang/hy.embed.js?v=20260718"></script>
+    <script src="lang/ru.embed.js?v=20260718"></script>
+    <script src="lang/en.embed.js?v=20260718"></script>
 <script src="js/i18n-boot.js?v=20260718"></script>
 </head>
 <body class="hss-page" data-page="departments" data-i18n-title="pages.departments.title">

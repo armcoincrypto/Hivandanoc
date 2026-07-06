@@ -153,8 +153,22 @@ const EMERGENCY_TEXT = {
 
 let dictCache = {};
 
+/** First valid hy|ru|en from Express query (string or duplicate array). */
+function parseLangParam(raw) {
+  if (raw == null || raw === '') return null;
+  if (Array.isArray(raw)) {
+    for (const item of raw) {
+      const parsed = parseLangParam(item);
+      if (parsed) return parsed;
+    }
+    return null;
+  }
+  const code = String(raw).trim().toLowerCase();
+  return LANGS.includes(code) ? code : null;
+}
+
 function normalizeLang(raw) {
-  return LANGS.includes(raw) ? raw : 'hy';
+  return parseLangParam(raw) || 'hy';
 }
 
 function loadLangDict(lang = 'hy') {
@@ -353,6 +367,7 @@ module.exports = {
   LANGS,
   BRAND,
   UI,
+  parseLangParam,
   normalizeLang,
   loadLangDict,
   dictPath,

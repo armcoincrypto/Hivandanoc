@@ -38,7 +38,7 @@ const SiteSEO = (function () {
     appointment: {
       descriptionKey: 'pages.appointment.seoDescription',
       fallbackDescription: 'Book an appointment online at Healthy Spine rehabilitation center.',
-      canonical: '/appointment.html'
+      canonical: '/appointment'
     },
     contacts: {
       descriptionKey: 'pages.contacts.seoDescription',

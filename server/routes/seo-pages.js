@@ -9,71 +9,66 @@ const { normalizeLang } = require('../services/i18n-ssr');
 
 const router = express.Router();
 
+function sendLocaleHtml(req, res, html) {
+  if (!html) return res.status(404).send('Not found');
+  const lang = normalizeLang(req.query.lang);
+  if (lang !== 'hy') {
+    res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Vary', 'Accept-Language');
+  } else {
+    res.setHeader('Cache-Control', 'public, max-age=300');
+  }
+  res.type('html').send(html);
+}
+
 Object.keys(ROUTES).forEach((routePath) => {
   router.get(routePath, (req, res) => {
-    const html = serveSeoPage(routePath, req.query.lang);
-    if (!html) return res.status(404).send('Not found');
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    res.type('html').send(html);
+    const lang = normalizeLang(req.query.lang);
+    sendLocaleHtml(req, res, serveSeoPage(routePath, lang));
   });
 });
 
 LAUNCHED_AUTHORITY_SLUGS.forEach((routePath) => {
   router.get(routePath, (req, res) => {
-    const html = servePage(routePath, req.query.lang);
-    if (!html) return res.status(404).send('Not found');
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    res.type('html').send(html);
+    const lang = normalizeLang(req.query.lang);
+    sendLocaleHtml(req, res, servePage(routePath, lang));
   });
 });
 
 router.get('/services', (req, res) => {
-  const html = serveServicesHub(req.query.lang);
-  if (!html) return res.status(404).send('Not found');
-  res.setHeader('Cache-Control', 'public, max-age=300');
-  res.type('html').send(html);
+  const lang = normalizeLang(req.query.lang);
+  sendLocaleHtml(req, res, serveServicesHub(lang));
 });
 
 router.get('/services/:slug', (req, res) => {
-  const html = serveServicePage(req.params.slug, req.query.lang);
-  if (!html) return res.status(404).send('Not found');
-  res.setHeader('Cache-Control', 'public, max-age=300');
-  res.type('html').send(html);
+  const lang = normalizeLang(req.query.lang);
+  sendLocaleHtml(req, res, serveServicePage(req.params.slug, lang));
 });
 
 router.get('/conditions', (req, res) => {
-  const html = serveConditionsHub(req.query.lang);
-  if (!html) return res.status(404).send('Not found');
-  res.setHeader('Cache-Control', 'public, max-age=300');
-  res.type('html').send(html);
+  const lang = normalizeLang(req.query.lang);
+  sendLocaleHtml(req, res, serveConditionsHub(lang));
 });
 
 router.get('/conditions/:slug', (req, res) => {
-  const html = serveConditionPage(req.params.slug, req.query.lang);
-  if (!html) return res.status(404).send('Not found');
-  res.setHeader('Cache-Control', 'public, max-age=300');
-  res.type('html').send(html);
+  const lang = normalizeLang(req.query.lang);
+  sendLocaleHtml(req, res, serveConditionPage(req.params.slug, lang));
 });
 
 router.get('/knowledge', (req, res) => {
-  const html = serveKnowledgeHub(req.query.lang);
-  if (!html) return res.status(404).send('Not found');
-  res.setHeader('Cache-Control', 'public, max-age=300');
-  res.type('html').send(html);
+  const lang = normalizeLang(req.query.lang);
+  sendLocaleHtml(req, res, serveKnowledgeHub(lang));
 });
 
 router.get('/knowledge/:slug', (req, res) => {
-  const html = serveKnowledgeArticle(req.params.slug, req.query.lang);
-  if (!html) return res.status(404).send('Not found');
-  res.setHeader('Cache-Control', 'public, max-age=300');
-  res.type('html').send(html);
+  const lang = normalizeLang(req.query.lang);
+  sendLocaleHtml(req, res, serveKnowledgeArticle(req.params.slug, lang));
 });
 
 router.get('/doctors/:slug', (req, res) => {
-  const html = serveDoctorPage(req.params.slug, req.query.lang);
-  if (!html) return res.status(404).send('Not found');
-  res.setHeader('Cache-Control', 'public, max-age=300');
-  res.type('html').send(html);
+  const lang = normalizeLang(req.query.lang);
+  sendLocaleHtml(req, res, serveDoctorPage(req.params.slug, lang));
 });
 
 module.exports = router;

@@ -7,6 +7,7 @@ const { publicFormLimiter } = require('../middleware/rateLimit');
 const { validateLead, sanitizeString, sanitizeEmail } = require('../middleware/validate');
 const { notifyForm } = require('../notify');
 const { buildSitemapXml } = require('../services/sitemap');
+const { normalizeLang } = require('../services/i18n-ssr');
 
 const router = express.Router();
 
@@ -50,7 +51,7 @@ router.get('/version', (_req, res) => {
 });
 
 router.get('/content', (req, res) => {
-  const lang = ['hy', 'ru', 'en'].includes(req.query.lang) ? req.query.lang : 'hy';
+  const lang = normalizeLang(req.query.lang);
   const status = getPublishStatus();
   const content = buildPublicContent(lang);
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
@@ -60,7 +61,7 @@ router.get('/content', (req, res) => {
 });
 
 router.get('/content-snapshot', (req, res) => {
-  const lang = ['hy', 'ru', 'en'].includes(req.query.lang) ? req.query.lang : 'hy';
+  const lang = normalizeLang(req.query.lang);
   const snapshot = readPublishedContent(lang);
   if (!snapshot) {
     const content = buildPublicContent(lang);
@@ -73,13 +74,13 @@ router.get('/content-snapshot', (req, res) => {
 });
 
 router.get('/doctors', (req, res) => {
-  const lang = ['hy', 'ru', 'en'].includes(req.query.lang) ? req.query.lang : 'hy';
+  const lang = normalizeLang(req.query.lang);
   const content = buildPublicContent(lang);
   res.json({ ok: true, doctors: content.doctors });
 });
 
 router.get('/services', (req, res) => {
-  const lang = ['hy', 'ru', 'en'].includes(req.query.lang) ? req.query.lang : 'hy';
+  const lang = normalizeLang(req.query.lang);
   const content = buildPublicContent(lang);
   const category = typeof req.query.category === 'string' ? req.query.category.trim() : '';
   const catalog = buildServiceCatalog(content, category || null);
@@ -215,7 +216,7 @@ router.post('/leads/review', publicFormLimiter, async (req, res) => {
 });
 
 router.get('/reviews', (req, res) => {
-  const lang = ['hy', 'ru', 'en'].includes(req.query.lang) ? req.query.lang : 'hy';
+  const lang = normalizeLang(req.query.lang);
   const nameCol = lang === 'ru' ? 'name_ru' : lang === 'en' ? 'name_en' : 'name_hy';
   const textCol = lang === 'ru' ? 'text_ru' : lang === 'en' ? 'text_en' : 'text_hy';
   const rows = getDb()

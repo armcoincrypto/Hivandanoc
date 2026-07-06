@@ -6,11 +6,47 @@ const HUB_ROOTS = {
   'knowledge-hub': 'knowledge-hub-root'
 };
 
+const ARMENIAN_RE = /[\u0531-\u0587]/;
+
+function hubUrlLang() {
+  if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.resolveLangFromSearch === 'function') {
+    return LocalePolicy.resolveLangFromSearch() || 'hy';
+  }
+  const params = new URLSearchParams(window.location.search);
+  for (const code of params.getAll('lang')) {
+    if (code === 'en' || code === 'ru') return code;
+  }
+  return 'hy';
+}
+
+function pageHref(path) {
+  if (typeof HospitalApp !== 'undefined' && typeof HospitalApp.routeHref === 'function') {
+    return HospitalApp.routeHref(path);
+  }
+  if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.withLang === 'function') {
+    return LocalePolicy.withLang(path, hubUrlLang());
+  }
+  return path;
+}
+
+function crawlBlockHasArmenian(root) {
+  const block = root?.querySelector('.seo-crawl-content');
+  if (!block) return false;
+  return ARMENIAN_RE.test(block.textContent || '');
+}
+
 async function hydrateHubRoot(rootId) {
   const root = document.getElementById(rootId);
-  if (!root || root.querySelector('.seo-crawl-content')) return;
+  if (!root) return;
+  const urlLang = hubUrlLang();
+  const hasCrawl = !!root.querySelector('.seo-crawl-content');
+  const localeMismatch = urlLang !== 'hy' && crawlBlockHasArmenian(root);
+  if (hasCrawl && !localeMismatch) return;
   try {
-    const res = await fetch(window.location.pathname, { credentials: 'same-origin' });
+    const res = await fetch(window.location.pathname + window.location.search, {
+      credentials: 'same-origin',
+      cache: 'no-store'
+    });
     if (!res.ok) return;
     const html = await res.text();
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -247,7 +283,7 @@ function renderDoctors(data, surgeonOnly) {
         ${doc.bio ? `<p class="hss-doctor-item__bio">${doc.bio}</p>` : ''}
       </div>
       <div class="hss-doctor-item__actions">
-        <a href="appointment.html?doctor=${doc.id}" class="hss-btn hss-btn--primary">${t('common.bookOnline')}</a>
+        <a href="${pageHref(`/appointment?doctor=${doc.id}`)}" class="hss-btn hss-btn--primary">${t('common.bookOnline')}</a>
         <a href="tel:${tel}" class="hss-btn hss-btn--outline">${t('common.callUs')}</a>
       </div>
     </article>`
@@ -401,7 +437,7 @@ function renderDepartments(data, filterCategory, options) {
                     : ''
                 }
                 <div class="hss-service-item__footer">
-                  <a href="appointment.html?department=${d.id}" class="hss-btn hss-btn--primary hss-service-item__cta">${t('common.bookOnline')}</a>
+                  <a href="${pageHref(`/appointment?department=${d.id}`)}" class="hss-btn hss-btn--primary hss-service-item__cta">${t('common.bookOnline')}</a>
                 </div>
               </article>
             </li>`;

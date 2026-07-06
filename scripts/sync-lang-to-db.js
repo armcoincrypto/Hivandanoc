@@ -169,7 +169,7 @@ function run() {
       h.heroImage ||
       'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=85';
   }
-  if (!hero.ctaLink) hero.ctaLink = 'appointment.html';
+  if (!hero.ctaLink) hero.ctaLink = '/appointment';
   db.prepare(
     `INSERT INTO page_sections (page_key, section_key, enabled, sort_order, content_json, updated_at)
      VALUES ('home', 'hero', 1, 0, ?, datetime('now'))

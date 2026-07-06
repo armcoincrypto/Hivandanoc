@@ -1,3 +1,21 @@
+/** Build locale-aware /appointment link (clean URL; preserves ?lang=). */
+function appointmentHref(extraQuery) {
+  let path = '/appointment';
+  if (extraQuery) {
+    const q = String(extraQuery).replace(/^\?/, '');
+    path = `${path}?${q}`;
+  }
+  if (typeof HospitalApp !== 'undefined' && typeof HospitalApp.routeHref === 'function') {
+    return HospitalApp.routeHref(path);
+  }
+  if (typeof LocalePolicy !== 'undefined' && typeof LocalePolicy.withLang === 'function') {
+    const lang =
+      typeof LocalePolicy.getActiveLang === 'function' ? LocalePolicy.getActiveLang() : 'hy';
+    return LocalePolicy.withLang(path, lang);
+  }
+  return path;
+}
+
 function articleCard(a) {
   return `
     <article class="hss-mb-card">
@@ -96,7 +114,7 @@ function renderPrograms(mb, t) {
         <span class="hss-mb-programs__badge">${p.badge}</span>
         <h2 class="hss-serif">${p.title}</h2>
         <p>${p.text}</p>
-        <a href="appointment.html" class="hss-btn hss-btn--primary">${p.cta}</a>
+        <a href="${appointmentHref()}" class="hss-btn hss-btn--primary">${p.cta}</a>
       </div>
       <div class="hss-mb-programs__media">
         <img src="${p.image}" alt="" loading="lazy">

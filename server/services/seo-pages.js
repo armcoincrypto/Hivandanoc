@@ -14,7 +14,8 @@ const {
   contactBlockHtml,
   normalizeLang,
   loadLangDict,
-  dictPath
+  dictPath,
+  injectLocaleIntoLinks
 } = require('./i18n-ssr');
 
 const SITE_ROOT = path.join(__dirname, '../..');
@@ -336,8 +337,69 @@ const ROUTES = {
       const u = ui(lang);
       return [localBusinessNode(data, url), breadcrumb(url, u.locations, lang)];
     }
-  }
+  },
+  '/appointment': simpleDictPageRoute('appointment.html', 'appointment'),
+  '/reviews': simpleDictPageRoute('reviews.html', 'reviews'),
+  '/move-better': simpleDictPageRoute('move-better.html', 'moveBetter'),
+  '/submit-story': simpleDictPageRoute('submit-story.html', 'submitStory'),
+  '/privacy-policy': footerDictPageRoute('privacy-policy.html', 'footer.policyPrivacy'),
+  '/terms': footerDictPageRoute('terms.html', 'footer.policyTerms'),
+  '/cookies-policy': footerDictPageRoute('cookies-policy.html', 'footer.policyCookies'),
+  '/patient-information': footerDictPageRoute('patient-information.html', 'footer.policyPatient')
 };
+
+function simpleDictPageRoute(file, pageKey) {
+  return {
+    file,
+    pageKey,
+    fillDictionary: true,
+    resolveMeta: (data, lang) => pageMetaFromDict(pageKey, lang, data),
+    bodyHtml: (data, lang) => {
+      const meta = pageMetaFromDict(pageKey, lang, data);
+      const text = meta.description || meta.tagline;
+      if (!text) return '';
+      return `<section class="seo-crawl-content" id="seo-crawl-content"><p>${esc(text)}</p></section>`;
+    },
+    jsonLd: (data, url, lang) => {
+      const meta = pageMetaFromDict(pageKey, lang, data);
+      return [clinicNode(data), breadcrumb(url, meta.h1, lang)];
+    }
+  };
+}
+
+function footerDictPageRoute(file, footerKey) {
+  const pageKey = file.replace('.html', '');
+  return {
+    file,
+    pageKey,
+    fillDictionary: true,
+    resolveMeta: (data, lang) => {
+      lang = normalizeLang(lang);
+      const dict = loadLangDict(lang);
+      const label = dictPath(dict, footerKey) || '';
+      const name = clinicDisplayName(data, lang);
+      return {
+        title: label ? `${label} — ${name}` : name,
+        description: dict.meta?.siteDescription || '',
+        h1: label || name,
+        tagline: ''
+      };
+    },
+    bodyHtml: (data, lang) => {
+      lang = normalizeLang(lang);
+      const dict = loadLangDict(lang);
+      const label = dictPath(dict, footerKey) || '';
+      if (!label) return '';
+      return `<section class="seo-crawl-content" id="seo-crawl-content"><p>${esc(label)}</p></section>`;
+    },
+    jsonLd: (data, url, lang) => {
+      lang = normalizeLang(lang);
+      const dict = loadLangDict(lang);
+      const label = dictPath(dict, footerKey) || ui(lang).home;
+      return [clinicNode(data), breadcrumb(url, label, lang)];
+    }
+  };
+}
 function consultationBodyHtml(data, lang = 'hy') {
   lang = normalizeLang(lang);
   const h = data?.hospital || {};
@@ -558,6 +620,8 @@ function serveSeoPage(routePath, lang = 'hy') {
     if (phoneDigits) {
       html = html.replace(/tel:\+37410000000/g, `tel:+${phoneDigits}`);
     }
+  } else if (route.fillDictionary) {
+    html = fillI18nPlaceholders(html, lang);
   }
 
   if (route.pageKey === 'contacts' || route.pageKey === 'locations') {
@@ -584,6 +648,7 @@ function serveSeoPage(routePath, lang = 'hy') {
   );
 
   html = applyHtmlLang(html, lang);
+  html = injectLocaleIntoLinks(html, lang);
   return normalizeRootAssetPaths(html);
 }
 

@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parent.parent
 VER = "20260718"
 EMBED_VER = "20260718"
 
-INLINE_PENDING = """    <script>(function(){var c=['hy','ru','en'],l='hy',k='gkb_lang';try{var s=localStorage.getItem(k);if(s&&c.indexOf(s)>=0)l=s;}catch(e){}try{var q=new URLSearchParams(location.search).get('lang');if(q&&c.indexOf(q)>=0)l=q;}catch(e){}document.documentElement.lang=l;document.documentElement.classList.add('i18n-pending');})();</script>"""
+INLINE_PENDING = """    <script>(function(){var c=['hy','ru','en'],l='hy',k='gkb_lang';try{var s=localStorage.getItem(k);if(s&&c.indexOf(s)>=0)l=s;}catch(e){}try{var p=new URLSearchParams(location.search);p.getAll('lang').some(function(q){q=String(q||'').trim().toLowerCase();if(c.indexOf(q)>=0){l=q;return true;}return false;});}catch(e){}document.documentElement.lang=l;document.documentElement.classList.add('i18n-pending');})();</script>"""
 
 HEAD_EMBEDS = f"""    <script src="lang/hy.embed.js?v={EMBED_VER}"></script>
     <script src="lang/ru.embed.js?v={EMBED_VER}"></script>
